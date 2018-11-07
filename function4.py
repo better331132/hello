@@ -3,5 +3,4 @@ food = ['과일', '고기', '야채']
 def get_things(y):
     for x in y:
         return(x)
-result = return(x)
-get_things(fruits)
+get_things(food)

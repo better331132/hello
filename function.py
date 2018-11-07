@@ -1,3 +1,3 @@
-def first_func():
+def fn():
     print("함수가 호출됨")
-first_func()
+fn()                        #함수를 입력해야 결과값이 표시됨
