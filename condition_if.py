@@ -1,11 +1,11 @@
-point = 68
-if point >= 90:
+score = 68
+if score >= 90:
     print('A')
-elif point >= 80:
+elif score >= 80:
     print('B')
-elif point >= 70:
+elif score >= 70:
     print('C')
-elif point >= 60:
+elif score >= 60:
     print('D')
 else :
     print('F')

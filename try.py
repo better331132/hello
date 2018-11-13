@@ -1,0 +1,1 @@
+with open('students.csv', 'w', encoding = 'utf8') as file : file.write("11")
