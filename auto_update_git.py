@@ -1,9 +1,22 @@
 import sys, os
+import datetime
+sa = sys.argv #0번째 : 실행파일, 1번째 : 메시지 부분
 
-def auto_update_git():
-    if os.name == 'nt':
-        os.system('git add --all')
-        os.system('git commit -am "12345"')
-        os.system('git push')
+now = datetime.datetime.now()
+default_msg = "{} 강의".format(now.strftime('%Y-%m-%d')
+commit_msg = default_msg
 
-auto_update_git()
+has_msg = len(sa) >= 2
+
+if has_msg:
+    commit_msg = sa[1]
+
+else:
+    input_msg = input("Default Message?? (yes: Enter or input message) > ")
+    if input_msg != '':
+        commit_msg = input_msg
+
+print("commit ... ",commit_msg)
+os.system("git add --all")
+os.system("git commit --am '{}'".format(commit_msg))
+os system("git push")
