@@ -6,4 +6,4 @@ print(numbers)
 
 new_numbers = sorted(numbers)
 print(numbers)
-# print(new_numbers)
+print(new_numbers)
