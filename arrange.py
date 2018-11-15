@@ -5,5 +5,5 @@ numbers.sort(reverse = True)
 print(numbers)
 
 new_numbers = sorted(numbers)
-print(numbers)
+# print(numbers)
 # print(new_numbers)
