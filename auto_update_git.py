@@ -3,7 +3,7 @@ import datetime
 sa = sys.argv #0번째 : 실행파일, 1번째 : 메시지 부분
 
 now = datetime.datetime.now()
-default_msg = "{} 강의".format(now.strftime('%Y-%m-%d')
+default_msg = "{} 강의".format(now.strftime('%Y-%m-%d'))
 commit_msg = default_msg
 
 has_msg = len(sa) >= 2
@@ -18,5 +18,5 @@ else:
 
 print("commit ... ",commit_msg)
 os.system("git add --all")
-os.system("git commit --am '{}'".format(commit_msg))
-os system("git push")
+os.system('git commit -am "{}"'.format(commit_msg))
+os.system("git push")

@@ -1,5 +1,2 @@
-import sys
-sys.argv
-sys.argv[0]
-sys.argv[1]
-print(sys.argv[1])
+lst = [1,2,3,4,5]
+lst.pop(0)
