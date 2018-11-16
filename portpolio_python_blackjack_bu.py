@@ -46,7 +46,6 @@ while True:
                 print('')
                 print("당신의 카드 목록입니다.",player)
                 print("현재 당신의 점수는 {}입니다.".format(sum_p))
-                print('')
                 if sum_p > 21 :
                         break
                 continue
