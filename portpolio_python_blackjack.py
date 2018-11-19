@@ -29,10 +29,10 @@ for i in range(0,2):
 print("당신의 카드 목록입니다.",player)
 print("현재 당신의 점수는 {}입니다.".format(sum_p))
 print('')
-while True:
+while True:0.
         hit_stay = input("카드를 추가하시겠습니까? (y/n) >> ")
-        if hit_stay == "y":
-                player.append(new_card.pop(0))
+                if hit_stay == "y":
+                        player.append(new_card.pop(0))
                 if player[-1][-1] in ['0','J','Q','K']:
                         card_point_p = 10
                 elif player[-1][-1] == 'A':
