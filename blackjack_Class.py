@@ -16,8 +16,13 @@ card = Card()
 # print(card.card_set)
 shuffled_deck = Deck()
 deck = shuffled_deck.card_set
-print(deck)
 
-class Dealer:
+class EachDeck:
+    poped_card = []
     def __init__(self):
-        self.
+        self.poped_card.append(deck.pop(0))
+        # self.score
+
+dealerdeck = EachDeck()
+dealer = dealerdeck.poped_card
+print(dealer)
