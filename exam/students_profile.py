@@ -37,7 +37,7 @@ class Students:
 
 
 students = []
-with open("students.csv", "r", encoding = 'utf8') as file :
+with open("../students.csv", "r", encoding = 'utf8') as file :
     for i, line in enumerate(file):
         if i == 0:
             continue
