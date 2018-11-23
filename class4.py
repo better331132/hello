@@ -31,7 +31,7 @@ class Test:
 
 puppy = Puppy('탕탕')
 puppy.speak()
-print("Name is", puppy.name)
-print("is it dog?", isinstance(puppy, Dog))
-test = Test()
-test.__q()
+# print("Name is", puppy.name)
+# print("is it dog?", isinstance(puppy, Dog))
+# test = Test()
+# test.__q()

@@ -4,3 +4,4 @@ def clear():
         os.system('CLS')
     else: 
         os.system('clear')
+clear()

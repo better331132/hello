@@ -13,3 +13,5 @@ numbers = range(0,101)
 # print(list(div_hundred))
 
 a = filter(lambda x : x % 2 != 0 and x % 3 != 0 and x % 5 != 0 and x % 7 !=0 and x !=1, numbers)
+b = [2, 3, 5, 7]
+print(a)
