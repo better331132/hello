@@ -42,22 +42,22 @@ https://code.visualstudio.com/ 에 접속하면 OS에 적합한 version이 표�
 	4. iterable functions  
 	5. collections  
 	6. filter functions  
-  7. map function  
-  8. reduce function  
-  9. sorting object functions  
+	7. map function  
+	8. reduce function  
+	9. sorting object functions  
 14. Module  
-  1. variables  
-    - local variables  
-    - global variables  
-  2. python module  
-    - standard module  
-    - outside module  
-  3. module(usage)  
-  4. sys module  
-  5. os module  
-  6. datetime module  
-  7. time module  
-  8. math module  
-  9. random module  
-  10. urllib module  
+	1. variables  
+		- local variables  
+		- global variables  
+	2. python module  
+		- standard module  
+		- outside module  
+	3. module(usage)  
+	4. sys module  
+	5. os module  
+	6. datetime module  
+	7. time module  
+	8. math module  
+	9. random module  
+	10. urllib module  
 
