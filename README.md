@@ -23,25 +23,25 @@ https://code.visualstudio.com/ 에 접속하면 OS에 적합한 version이 표�
 9. For each loop:(반복실행)  
 10. While loop:(반복실행)  
 11. Function-1(python built-in function, 내장함수)  
-  1. variable arguments  
-  2. recursive function  
-  3. python built-in functions  
-  4. simple functions  
+	1. variable arguments  
+	2. recursive function  
+	3. python built-in functions  
+	4. simple functions  
 12. Class & Object & Instance  
-  1. class  
-  2. object  
-  3. instance  
-  4. inheritance  
-  5. encapsulation  
-  6. method  
-  7. static method  
+	1. class  
+	2. object  
+	3. instance  
+	4. inheritance  
+	5. encapsulation  
+	6. method  
+	7. static method  
 13. Function-2(python built-in function, 내장함수)  
-  1. class function  
-  2. object function  
-  3. file functions  
-  4. iterable functions  
-  5. collections  
-  6. filter functions  
+	1. class function  
+	2. object function  
+	3. file functions  
+	4. iterable functions  
+	5. collections  
+	6. filter functions  
   7. map function  
   8. reduce function  
   9. sorting object functions  
