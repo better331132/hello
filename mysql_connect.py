@@ -38,7 +38,7 @@ print(Students)
 
 
 # conn = sqlite3.connect("test.db")
-conn = pymysql.connect(host='localhost', user='better', password='1q2w3e', port=3306, db='betterdb', charset='utf8')
+conn = pymysql.connect(host='localhost', user='hong', password='1q2w3e', port=3306, db='homedb', charset='utf8')
 
 with conn:
     cur = conn.cursor()
