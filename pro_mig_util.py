@@ -1,4 +1,5 @@
 import pymysql
+import cx_Oracle
 
 def get_mysql_conn(db):
     return pymysql.connect(
@@ -23,3 +24,6 @@ def trunc_table(conn, tbl):
     cur = conn.cursor()
     cur.execute('truncate table ' + tbl)
     return cur.rowcount
+
+def get_oracle_conn(usr, usrpw, localhost):
+        return cx_Oracle.connect(usr, usrpw, localhost)
