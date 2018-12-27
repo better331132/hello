@@ -37,7 +37,7 @@ while len(Students)<1000:
 print(Students)
 
 
-# conn = sqlite3.connect("test.db")
+
 conn = pymysql.connect(host='localhost', user='better', password='1q2w3e', port=3306, db='betterdb', charset='utf8')
 
 with conn:
@@ -45,10 +45,3 @@ with conn:
     sql = "insert into Students(name, tel, email, birth, addr) values(%s, %s, %s, %s, %s)"
     cur.executemany(sql, Students)
     conn.commit()
-
-# curs = conn.cursor()
-# sql = "select * from Students"
-# curs.execute(sql)
-# rows = curs.fetchall()
-# print(rows)
-# conn.close()
