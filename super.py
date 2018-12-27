@@ -18,3 +18,5 @@ class Child(TestClass):
 
 child = Child()
 test = TestClass()
+print(test.get_name())
+print(child.get_name())

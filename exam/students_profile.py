@@ -59,7 +59,7 @@ list(t)
 students_lst = []
 
 for x in students:
-    students_lst.append([x.name, x.egender, x.dec, x.grade, x.tad])
+    students_lst.append([x.name[0] + "**", x.egender, x.dec, x.grade + "대", x.tad])
 
 
 conn = sqlite3.connect("exam.db")
