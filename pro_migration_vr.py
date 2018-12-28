@@ -20,7 +20,7 @@ with conn_dadb:
 
     print("betterdb =", better_cnt, ", dadb =", da_cnt)
     if better_cnt != da_cnt:
-        print("Not Valid Count!! betterdb =", better_cnt, ", dadb =", da_cnt)
+        print("Not Valid Count!! betterdb = ", better_cnt, ", dadb =", da_cnt)
         exit()
 
     else:
