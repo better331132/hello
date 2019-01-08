@@ -124,8 +124,18 @@ with conn_mysql_betterdb:
         sample_rowcount_mysql_job_history = cur.rowcount
 
         if sample_rowcount_mysql_department == sample_rowcount_oracle_departments and sample_rowcount_mysql_employee == sample_rowcount_oracle_employees and sample_rowcount_mysql_job == sample_rowcount_oracle_jobs and sample_rowcount_mysql_job_history == sample_rowcount_oracle_job_historys:
-            print("Whole data is OK", "Verified count of sample_rowcount_mysql_department is", sample_rowcount_mysql_department, "Verified count of sample_rowcount_mysql_employee is", sample_rowcount_mysql_employee)
+            print("Whole data is OK!!\nVerified count of sample_rowcount_mysql_department is", sample_rowcount_mysql_department, 
+                                    "\nVerified count of sample_rowcount_mysql_employee is", sample_rowcount_mysql_employee,
+                                    "\nVerified count of sample_rowcount_mysql_job is", sample_rowcount_mysql_job,
+                                    "\nVerified count of sample_rowcount_mysql_job_history is", sample_rowcount_mysql_job_history)
             
         else:
-            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Fail", 
-              sample_rowcount_mysql_department, sample_rowcount_oracle_departments, sample_rowcount_mysql_employee, sample_rowcount_oracle_employees, sample_rowcount_mysql_job, sample_rowcount_oracle_jobs, sample_rowcount_mysql_job_history, sample_rowcount_oracle_job_historys)
+            print("Fail !!\n", 
+              "sample_rowcount_mysql_department >> ", sample_rowcount_mysql_department, 
+              "\nsample_rowcount_oracle_departments >> ", sample_rowcount_oracle_departments,
+              "\nsample_rowcount_mysql_employee >> ", sample_rowcount_mysql_employee,
+              "\nsample_rowcount_oracle_employees >> ", sample_rowcount_oracle_employees,
+              "\nsample_rowcount_mysql_job >> ",sample_rowcount_mysql_job,
+              "\nsample_rowcount_oracle_jobs >> ", sample_rowcount_oracle_jobs, 
+              "\nsample_rowcount_mysql_job_history >> ", sample_rowcount_mysql_job_history, 
+              "\nsample_rowcount_oracle_job_historys >> ", sample_rowcount_oracle_job_historys)

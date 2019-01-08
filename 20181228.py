@@ -75,14 +75,6 @@ with conn_oracle_hr:
     cur.execute(sql_job_history)
     rows_job_history = cur.fetchall()
 
-for row in rows_departments:
-    print("departments >> ",row)
-for row in rows_employees:
-    print("employees >> ",row)
-for row in rows_jobs:
-    print("jobs >> ",row)
-for row in rows_job_history:
-    print("job_history >> ",row)
 
 
 with conn_mysql_betterdb:

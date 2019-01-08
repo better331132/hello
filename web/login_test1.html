@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SignInTest</title>
+    <style>
+    form.outset {
+        padding: 10px;
+        border-style: outset;
+        border-width: 15px;
+        width: 800px;
+        align-items: center;
+    }
+    </style>
+    <script>
+        $(window).on("load", console.debug('onload!!'));
+        $(document).ready(function () {
+            console.log("ready!");
+            $('#err').hide();
+            $('#userid').val('a');
+            $('#userpw').val('1');
+
+        function checkLogin() {
+            var uid = $('#userid').val(),
+                upw = $('#userpw').val();
+            console.log(">>>>>>", uid, upw)
+            var frm = $('#frm'),
+                msg = $('#msg'),
+                err = $('#err');
+            if (uid === 'a' && upw === '1') {
+                frm.hide();
+                msg.show();
+                err.hide();
+            } else {
+                err.show();
+                frm.show();
+            }
+            return false;
+        }
+    </script>
+</head>
+<body>
+    <form id="frm" onsubmit="return checkLogin()" method="post">
+        <input type="text" id="userid" value="" placeholder="니 ID ...">
+        <input type="password" id="userpw" value=""  placeholder="니 암호 ...">
+        <button>Sign-IN</button>
+    </form>
+
+    <p id="msg" style="text-align:center; color: green; display: none;">로그인되셨습니다!!
+        <div>
+            <span id="spn">TTT</span>
+        </div>
+    </p>
+
+    <p id="err" style="text-align:center; color: green;">로그인실패!!</p>
+</body>
+</html>

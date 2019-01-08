@@ -1,0 +1,220 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=euc-kr" />
+<meta name="decorator" content="ajax" />
+<script type="text/javascript" src="/share/calendar/js/calendar.js"></script>
+<script type="text/javascript">
+//<!--
+	var cnt = 0;
+	function fn_popup_alone(img, sizeW, sizeH ){
+		var param = 'width='+sizeW+',height='+sizeH+',resize=yes,scrollbars=no,status=no';
+		remote = window.open(img,'',param);
+	}
+//-->
+
+function excel() {
+		document.frm.action = "excel_save.jsp";
+		document.frm.excel_data.value = document.getElementById("excel_body").outerHTML;
+		document.frm.submit();
+}
+</script>
+
+<style type="text/css">
+img.map_img{display: none;}
+img.map_img.map_img_view{position: absolute;display: inline-block;left: 0;width:525px;opacity:0.7;}
+img.map_view_icon{width:16px;}
+.table_develop td.tdpgt{border:none;}
+.table_develop td.tdpgt:hover{background:none;}
+.table_develop td a.pgt{font-weight:bold;font-size:13px;height: 19px;line-height: 19px;padding: 2px 5px 0px 6px;font-size: 0.9em;border-bottom: 2px solid #ccc8c8;border-right: 1px solid #c7c7c7;background-color: #d2d2d2;background: linear-gradient(#e8e7e7, #d0cfcf);background: -webkit-linear-gradient(#e8e7e7, #d0cfcf);background: -o-linear-gradient(#e8e7e7, #d0cfcf);background: -moz-linear-gradient(#e8e7e7, #d0cfcf);color: #17336e;}
+.table_develop td a.pgt.don {border-bottom: 2px solid #9097c7;border-right: 1px solid #757cab;background-color: #acb4e9;background: linear-gradient(#acb4e9, #3242b1);background: -webkit-linear-gradient(#acb4e9, #3242b1);background: -o-linear-gradient(#acb4e9, #3242b1);background: -moz-linear-gradient(#acb4e9, #3242b1);color:#dfdeea;}
+.table_develop td a.pgt:hover {border-bottom: 2px solid #9097c7;border-right: 1px solid #757cab;background-color: #acb4e9;background: linear-gradient(#acb4e9, #3242b1);background: -webkit-linear-gradient(#acb4e9, #3242b1);background: -o-linear-gradient(#acb4e9, #3242b1);background: -moz-linear-gradient(#acb4e9, #3242b1);color:#dfdeea;}
+
+.table_develop td.pdl4{padding-left:4px;}
+.table_develop td a.prev{margin-right:2px;padding-right:0 !important;background:none !important;}
+.table_develop td a.next{margin-left:2px;padding-right:0 !important;background:none !important;}
+.table_develop td a.first{margin-right:2px;padding-right:0 !important;background:none !important;}
+.table_develop td a.last{margin:0;padding-right:0 !important;background:none !important;}
+.table_develop tbody td a{display: inline-block;}
+
+</style>    
+</head>
+<body>
+
+<!-- content :Start -->
+
+	<table class="table_develop" id="excel_body"> 
+	<caption>국내 지진목록 검색결과</caption>
+	<colgroup> 
+	<col width="7%" /> 
+	<col width="15%" /> 
+	<col width="7%" /> 
+	<col width="7%" /> 
+	<col width="9%" /> 
+	<col width="9%" /> 
+	<col width="*%" /> 
+	<col width="10%" /> 
+<!-- 	<col width="28%" /> 
+	<col width="7%" /> 
+	<col width="7%" /> 
+	<col width="8%" />  -->
+	</colgroup> 
+	<thead> 
+	<tr>
+	<th scope="col" rowspan="2" class="top_line">번호</th> 
+	<th scope="col" rowspan="2" class="top_line">발생시각</th> 
+	<th scope="col" rowspan="2" class="top_line">규모</th> 
+	<th scope="col" rowspan="2" class="top_line">깊이(km)</th> 
+	<th scope="col" rowspan="2" class="top_line">위도</th> 
+	<th scope="col" rowspan="2" class="top_line">경도</th> 
+	<th scope="col" rowspan="2" class="top_line">위치</th> 
+	<!-- <th scope="col" class="top_line">파형자료</th>  -->
+	<!-- <th scope="col" rowspan="2" class="top_line">지도보기</th> -->
+	</tr> 
+	<tr> 
+<!-- 		<th scope="col">속도</th> 
+		<th scope="col">가속도</th>
+		<th scope="col">지도보기</th>  -->
+	</tr> 
+	</thead> 
+	<tbody> 
+	<tr><td>115</td><td>2018/12/27 03:10:48</td><td>2.0</td><td>5</td><td>36.99 N </td><td>128.89 E </td><td class="align_left">경북 봉화군 북동쪽 18km 지역</td></tr>
+<tr><td>114</td><td>2018/12/21 16:06:12</td><td>2.7</td><td>12</td><td>35.76 N </td><td>127.95 E </td><td class="align_left">경남 거창군 북북동쪽 9km 지역</td></tr>
+<tr><td>113</td><td>2018/12/20 13:23:24</td><td>2.0</td><td>21</td><td>35.88 N </td><td>129.69 E </td><td class="align_left">경북 포항시 남구 동남동쪽 33km 해역</td></tr>
+<tr><td>112</td><td>2018/12/17 02:16:27</td><td>2.2</td><td>20</td><td>36.53 N </td><td>129.65 E </td><td class="align_left">경북 영덕군 동북동쪽 28km 해역</td></tr>
+<tr><td>111</td><td>2018/12/12 03:43:04</td><td>2.3</td><td>-</td><td>35.72 N </td><td>126.78 E </td><td class="align_left">전북 부안군 동남동쪽 4km 지역</td></tr>
+<tr><td>110</td><td>2018/12/09 14:06:18</td><td>2.2</td><td>19</td><td>35.86 N </td><td>129.69 E </td><td class="align_left">경북 포항시 남구 동남동쪽 34km 해역</td></tr>
+<tr><td>109</td><td>2018/12/08 04:16:41</td><td>2.4</td><td>17</td><td>36.31 N </td><td>128.25 E </td><td class="align_left">경북 구미시 북북서쪽 23km 지역</td></tr>
+<tr><td>108</td><td>2018/12/05 08:28:20</td><td>2.5</td><td>17</td><td>36.45 N </td><td>129.62 E </td><td class="align_left">경북 영덕군 동쪽 23km 해역</td></tr>
+<tr><td>107</td><td>2018/12/05 08:01:08</td><td>2.1</td><td>17</td><td>36.45 N </td><td>129.62 E </td><td class="align_left">경북 영덕군 동쪽 23km 해역</td></tr>
+<tr><td>106</td><td>2018/11/29 14:52:39</td><td>2.1</td><td>17</td><td>37.32 N </td><td>129.69 E </td><td class="align_left">경북 울진군 북동쪽 44km 해역</td></tr>
+<tr><td>105</td><td>2018/11/29 03:05:23</td><td>3.3</td><td>13</td><td>34.94 N </td><td>124.53 E </td><td class="align_left">전남 신안군 흑산도 서북서쪽 92km 해역</td></tr>
+<tr><td>104</td><td>2018/11/25 23:27:27</td><td>2.1</td><td>12</td><td>33.15 N </td><td>126.09 E </td><td class="align_left">제주 서귀포시 서남서쪽 45km 해역</td></tr>
+<tr><td>103</td><td>2018/11/25 02:58:33</td><td>2.2</td><td>-</td><td>38.73 N </td><td>125.92 E </td><td class="align_left">북한 황해북도 송림 동쪽 25km 지역</td></tr>
+<tr><td>102</td><td>2018/11/24 08:16:44</td><td>2.9</td><td>10</td><td>38.70 N </td><td>127.16 E </td><td class="align_left">북한 강원 평강 북북서쪽 34km 지역</td></tr>
+<tr><td>101</td><td>2018/11/22 18:36:18</td><td>2.2</td><td>19</td><td>35.91 N </td><td>129.71 E </td><td class="align_left">경북 포항시 남구 동남동쪽 33km 해역</td></tr>
+<tr><td>100</td><td>2018/11/20 14:10:27</td><td>2.3</td><td>17</td><td>33.52 N </td><td>127.29 E </td><td class="align_left">전남 여수시 거문도 남쪽 57km 해역</td></tr>
+<tr><td>99</td><td>2018/11/19 03:34:49</td><td>2.1</td><td>20</td><td>36.42 N </td><td>127.30 E </td><td class="align_left">대전 유성구 북서쪽 8km 지역</td></tr>
+<tr><td>98</td><td>2018/11/05 12:07:15</td><td>3.1</td><td>15</td><td>37.85 N </td><td>124.87 E </td><td class="align_left">북한 황해남도 옹진군 남서쪽 44km 해역</td></tr>
+<tr><td>97</td><td>2018/11/05 12:01:55</td><td>3.2</td><td>-</td><td>37.80 N </td><td>124.90 E </td><td class="align_left">북한 황해남도 옹진군 남서쪽 43km 해역</td></tr>
+<tr><td>96</td><td>2018/11/04 17:04:44</td><td>2.5</td><td>15</td><td>36.08 N </td><td>128.25 E </td><td class="align_left">경북 김천시 동남동쪽 14km 지역</td></tr>
+<tr><td>95</td><td>2018/10/25 05:53:46</td><td>2.3</td><td>16</td><td>35.76 N </td><td>129.19 E </td><td class="align_left">경북 경주시 남남서쪽 9km 지역</td></tr>
+<tr><td>94</td><td>2018/10/24 15:14:21</td><td>2.2</td><td>7</td><td>38.04 N </td><td>125.37 E </td><td class="align_left">북한 황해남도 옹진 북쪽 12km 지역</td></tr>
+<tr><td>93</td><td>2018/10/22 12:09:26</td><td>2.1</td><td>11</td><td>35.61 N </td><td>124.94 E </td><td class="align_left">전북 군산시 어청도 서남서쪽 109km 해역</td></tr>
+<tr><td>92</td><td>2018/10/20 01:22:40</td><td>2.6</td><td>-</td><td>37.26 N </td><td>129.96 E </td><td class="align_left">경북 울진군 동북동쪽 58km 해역</td></tr>
+<tr><td>91</td><td>2018/10/17 03:14:44</td><td>2.0</td><td>14</td><td>36.16 N </td><td>127.30 E </td><td class="align_left">충남 논산시 동쪽 18km 지역</td></tr>
+<tr><td>90</td><td>2018/10/14 14:46:03</td><td>2.4</td><td>-</td><td>37.49 N </td><td>124.58 E </td><td class="align_left">인천 옹진군 백령도 남쪽 52km 해역</td></tr>
+<tr><td>89</td><td>2018/10/12 16:43:00</td><td>2.3</td><td>13</td><td>38.67 N </td><td>127.18 E </td><td class="align_left">북한 강원 평강 북북서쪽 30km 지역</td></tr>
+<tr><td>88</td><td>2018/09/27 12:24:32</td><td>2.4</td><td>-</td><td>38.74 N </td><td>125.70 E </td><td class="align_left">북한 황해북도 송림 동쪽 6km 지역</td></tr>
+<tr><td>87</td><td>2018/09/25 04:05:47</td><td>2.5</td><td>16</td><td>33.46 N </td><td>125.80 E </td><td class="align_left">제주 제주시 서쪽 68km 해역</td></tr>
+<tr><td>86</td><td>2018/09/24 17:38:25</td><td>2.8</td><td>-</td><td>40.20 N </td><td>127.70 E </td><td class="align_left">북한 함경남도 신흥 북동쪽 30km 지역</td></tr>
+<tr><td>85</td><td>2018/09/17 10:52:48</td><td>2.4</td><td>12</td><td>36.05 N </td><td>129.69 E </td><td class="align_left">경북 포항시 북구 동쪽 29km 해역</td></tr>
+<tr><td>84</td><td>2018/09/15 21:45:44</td><td>2.4</td><td>-</td><td>37.07 N </td><td>129.91 E </td><td class="align_left">경북 울진군 동쪽 46km 해역</td></tr>
+<tr><td>83</td><td>2018/09/14 09:08:13</td><td>2.2</td><td>14</td><td>36.78 N </td><td>128.36 E </td><td class="align_left">경북 문경시 북동쪽 26km 지역</td></tr>
+<tr><td>82</td><td>2018/08/29 05:01:29</td><td>2.5</td><td>11</td><td>37.00 N </td><td>129.32 E </td><td class="align_left">경북 울진군 서쪽 7km 지역</td></tr>
+<tr><td>81</td><td>2018/08/24 21:28:24</td><td>2.1</td><td>18</td><td>34.33 N </td><td>127.42 E </td><td class="align_left">전남 고흥군 남남동쪽 34km 해역</td></tr>
+<tr><td>80</td><td>2018/08/24 02:57:16</td><td>2.6</td><td>12</td><td>37.92 N </td><td>125.68 E </td><td class="align_left">북한 황해남도 해주 남남서쪽 14km 지역</td></tr>
+<tr><td>79</td><td>2018/08/15 03:01:59</td><td>2.7</td><td>34</td><td>37.30 N </td><td>130.92 E </td><td class="align_left">경북 울릉군 울릉도 남쪽 21km 해역</td></tr>
+<tr><td>78</td><td>2018/08/10 21:41:19</td><td>2.4</td><td>-</td><td>33.21 N </td><td>127.53 E </td><td class="align_left">제주 서귀포시 동쪽 90km 해역</td></tr>
+<tr><td>77</td><td>2018/08/09 00:23:08</td><td>2.1</td><td>-</td><td>37.03 N </td><td>125.27 E </td><td class="align_left">충남 태안군 서격렬비도 북북서쪽 53km 해역</td></tr>
+<tr><td>76</td><td>2018/08/09 00:21:24</td><td>2.1</td><td>-</td><td>37.03 N </td><td>125.30 E </td><td class="align_left">충남 태안군 서격렬비도 북북서쪽 51km 해역</td></tr>
+<tr><td>75</td><td>2018/07/22 13:59:11</td><td>2.6</td><td>16</td><td>33.43 N </td><td>125.93 E </td><td class="align_left">제주 제주시 서쪽 56km 해역</td></tr>
+<tr><td>74</td><td>2018/07/21 23:30:47</td><td>2.2</td><td>13</td><td>34.47 N </td><td>127.25 E </td><td class="align_left">전남 고흥군 남남서쪽 16km 해역</td></tr>
+<tr><td>73</td><td>2018/07/20 12:29:33</td><td>2.3</td><td>21</td><td>35.84 N </td><td>129.79 E </td><td class="align_left">경북 포항시 남구 동남동쪽 43km 해역</td></tr>
+<tr><td>72</td><td>2018/07/20 12:14:33</td><td>2.4</td><td>20</td><td>36.01 N </td><td>126.16 E </td><td class="align_left">전북 군산시 어청도 남동쪽 21km 해역</td></tr>
+<tr><td>71</td><td>2018/07/19 05:52:11</td><td>2.5</td><td>23</td><td>35.83 N </td><td>129.80 E </td><td class="align_left">경북 포항시 남구 동남동쪽 44km 해역</td></tr>
+<tr><td>70</td><td>2018/07/17 20:19:12</td><td>2.7</td><td>-</td><td>35.91 N </td><td>127.81 E </td><td class="align_left">전북 무주군 남동쪽 17km 지역</td></tr>
+<tr><td>69</td><td>2018/07/04 04:39:40</td><td>2.1</td><td>10</td><td>37.30 N </td><td>127.70 E </td><td class="align_left">경기 여주시 동쪽 6km 지역</td></tr>
+<tr><td>68</td><td>2018/07/01 15:33:22</td><td>2.2</td><td>18</td><td>37.63 N </td><td>129.48 E </td><td class="align_left">강원 삼척시 북동쪽 34km 해역</td></tr>
+<tr><td>67</td><td>2018/06/28 21:03:26</td><td>2.2</td><td>-</td><td>36.99 N </td><td>125.25 E </td><td class="align_left">충남 태안군 서격렬비도 북북서쪽 50km 해역</td></tr>
+<tr><td>66</td><td>2018/06/28 18:43:00</td><td>2.7</td><td>9</td><td>38.18 N </td><td>127.34 E </td><td class="align_left">강원 철원군 북북동쪽 4km 지역</td></tr>
+<tr><td>65</td><td>2018/06/20 23:06:49</td><td>2.1</td><td>14</td><td>34.90 N </td><td>124.81 E </td><td class="align_left">전남 신안군 흑산면 서북서쪽 66km 해역</td></tr>
+<tr><td>64</td><td>2018/06/16 21:05:25</td><td>2.3</td><td>-</td><td>37.19 N </td><td>129.08 E </td><td class="align_left">강원 삼척시 남남서쪽 30km 지역</td></tr>
+<tr><td>63</td><td>2018/06/15 11:10:02</td><td>2.1</td><td>14</td><td>36.39 N </td><td>128.49 E </td><td class="align_left">경북 의성군 서북서쪽 19km 지역</td></tr>
+<tr><td>62</td><td>2018/06/09 17:38:46</td><td>2.3</td><td>18</td><td>35.87 N </td><td>129.73 E </td><td class="align_left">경북 포항시 남구 동남동쪽 37km 해역</td></tr>
+<tr><td>61</td><td>2018/05/31 16:38:15</td><td>2.8</td><td>8</td><td>38.53 N </td><td>127.68 E </td><td class="align_left">북한 강원 회양 남남동쪽 21km 지역</td></tr>
+<tr><td>60</td><td>2018/05/31 00:13:22</td><td>2.6</td><td>17</td><td>36.22 N </td><td>129.38 E </td><td class="align_left">경북 포항시 북구 북쪽 20km 지역</td></tr>
+<tr><td>59</td><td>2018/05/22 00:12:41</td><td>2.2</td><td>18</td><td>36.37 N </td><td>129.49 E </td><td class="align_left">경북 영덕군 동남동쪽 12km 해역</td></tr>
+<tr><td>58</td><td>2018/05/20 13:58:31</td><td>2.0</td><td>10</td><td>34.16 N </td><td>125.61 E </td><td class="align_left">전남 신안군 흑산면 남남동쪽 56km 해역</td></tr>
+<tr><td>57</td><td>2018/05/14 02:07:38</td><td>2.5</td><td>16</td><td>33.62 N </td><td>125.58 E </td><td class="align_left">제주 제주시 고산 서북서쪽 65km 해역</td></tr>
+<tr><td>56</td><td>2018/05/07 01:52:08</td><td>2.0</td><td>16</td><td>36.72 N </td><td>128.37 E </td><td class="align_left">경북 예천군 북서쪽 10km 지역</td></tr>
+<tr><td>55</td><td>2018/05/04 19:20:49</td><td>2.0</td><td>12</td><td>36.10 N </td><td>127.70 E </td><td class="align_left">충북 영동군 남서쪽 11km 지역</td></tr>
+<tr><td>54</td><td>2018/05/02 12:34:36</td><td>2.5</td><td>11</td><td>36.56 N </td><td>127.64 E </td><td class="align_left">충북 보은군 북서쪽 11km 지역</td></tr>
+<tr><td>53</td><td>2018/05/01 19:09:05</td><td>2.0</td><td>15</td><td>35.77 N </td><td>129.20 E </td><td class="align_left">경북 경주시 남쪽 8km 지역</td></tr>
+<tr><td>52</td><td>2018/04/24 05:20:32</td><td>2.5</td><td>10</td><td>37.06 N </td><td>125.92 E </td><td class="align_left">인천 옹진군 덕적도 남서쪽 27km 해역</td></tr>
+<tr><td>51</td><td>2018/04/23 13:10:21</td><td>2.4</td><td>17</td><td>33.21 N </td><td>126.40 E </td><td class="align_left">제주 서귀포시 서남서쪽 16km 해역</td></tr>
+<tr><td>50</td><td>2018/04/23 04:31:17</td><td>2.3</td><td>-</td><td>41.35 N </td><td>129.12 E </td><td class="align_left">북한 함경북도 길주 북북서쪽 47km 지역</td></tr>
+<tr><td>49</td><td>2018/04/09 12:15:40</td><td>2.4</td><td>16</td><td>35.76 N </td><td>129.19 E </td><td class="align_left">경북 경주시 남남서쪽 8km 지역</td></tr>
+<tr><td>48</td><td>2018/04/06 21:09:11</td><td>2.6</td><td>24</td><td>36.08 N </td><td>129.82 E </td><td class="align_left">경북 포항시 북구 동쪽 41km 해역</td></tr>
+<tr><td>47</td><td>2018/03/31 00:20:12</td><td>2.0</td><td>8</td><td>36.10 N </td><td>129.36 E </td><td class="align_left">경북 포항시 북구 북쪽 7km 지역</td></tr>
+<tr><td>46</td><td>2018/03/26 09:40:39</td><td>2.7</td><td>-</td><td>37.78 N </td><td>124.83 E </td><td class="align_left">인천 백령도 남동쪽 24km 해역</td></tr>
+<tr><td>45</td><td>2018/03/16 18:02:47</td><td>2.7</td><td>12</td><td>36.10 N </td><td>129.35 E </td><td class="align_left">경북 포항시 북구 북북서쪽 7km 지역</td></tr>
+<tr><td>44</td><td>2018/03/16 00:23:23</td><td>2.0</td><td>6</td><td>36.98 N </td><td>128.42 E </td><td class="align_left">충북 단양군 동남동쪽 5km 지역</td></tr>
+<tr><td>43</td><td>2018/03/10 01:31:39</td><td>2.8</td><td>6</td><td>36.14 N </td><td>129.37 E </td><td class="align_left">경북 포항시 북구 북쪽 11km 지역</td></tr>
+<tr><td>42</td><td>2018/03/09 18:05:37</td><td>2.2</td><td>7</td><td>36.95 N </td><td>126.45 E </td><td class="align_left">충남 서산시 북쪽 18km 지역</td></tr>
+<tr><td>41</td><td>2018/03/08 23:38:41</td><td>2.0</td><td>17</td><td>35.31 N </td><td>127.32 E </td><td class="align_left">전남 곡성군 북동쪽 4km 지역</td></tr>
+<tr><td>40</td><td>2018/03/08 23:16:47</td><td>2.0</td><td>15</td><td>35.30 N </td><td>127.33 E </td><td class="align_left">전남 곡성군 동북동쪽 4km 지역</td></tr>
+<tr><td>39</td><td>2018/03/04 00:52:47</td><td>2.6</td><td>9</td><td>38.13 N </td><td>130.33 E </td><td class="align_left">경북 울릉군 북서쪽 88km 해역</td></tr>
+<tr><td>38</td><td>2018/02/27 13:14:43</td><td>2.2</td><td>-</td><td>37.02 N </td><td>124.87 E </td><td class="align_left">충남 태안군 서격렬비도 북서쪽 75km 해역</td></tr>
+<tr><td>37</td><td>2018/02/26 11:06:57</td><td>2.5</td><td>6</td><td>34.52 N </td><td>125.32 E </td><td class="align_left">전남 신안군 흑산면 남서쪽 20km 해역</td></tr>
+<tr><td>36</td><td>2018/02/26 02:23:03</td><td>2.4</td><td>16</td><td>33.97 N </td><td>126.87 E </td><td class="align_left">전남 완도군 남남동쪽 39km 해역</td></tr>
+<tr><td>35</td><td>2018/02/18 03:34:27</td><td>2.4</td><td>9</td><td>36.07 N </td><td>129.33 E </td><td class="align_left">경북 포항시 북구 북서쪽 4km 지역</td></tr>
+<tr><td>34</td><td>2018/02/17 23:38:56</td><td>2.2</td><td>9</td><td>36.10 N </td><td>129.35 E </td><td class="align_left">경북 포항시 북구 북북서쪽 6km 지역</td></tr>
+<tr><td>33</td><td>2018/02/17 21:31:18</td><td>2.6</td><td>8</td><td>36.09 N </td><td>129.33 E </td><td class="align_left">경북 포항시 북구 북북서쪽 6km 지역</td></tr>
+<tr><td>32</td><td>2018/02/17 18:35:48</td><td>2.0</td><td>12</td><td>36.11 N </td><td>129.37 E </td><td class="align_left">경북 포항시 북구 북쪽 8km 지역</td></tr>
+<tr><td>31</td><td>2018/02/14 02:14:26</td><td>2.3</td><td>8</td><td>37.80 N </td><td>125.38 E </td><td class="align_left">북한 황해남도 옹진 남쪽 14km 해역</td></tr>
+<tr><td>30</td><td>2018/02/13 10:32:10</td><td>2.2</td><td>7</td><td>36.12 N </td><td>129.37 E </td><td class="align_left">경북 포항시 북구 북쪽 9km 지역</td></tr>
+<tr><td>29</td><td>2018/02/13 06:30:12</td><td>2.6</td><td>9</td><td>36.07 N </td><td>129.33 E </td><td class="align_left">경북 포항시 북구 북서쪽 5km 지역</td></tr>
+<tr><td>28</td><td>2018/02/11 12:49:37</td><td>2.4</td><td>16</td><td>36.08 N </td><td>129.33 E </td><td class="align_left">경북 포항시 북구 북서쪽 5km 지역</td></tr>
+<tr><td>27</td><td>2018/02/11 12:14:28</td><td>2.1</td><td>9</td><td>36.08 N </td><td>129.32 E </td><td class="align_left">경북 포항시 북구 북서쪽 6km 지역</td></tr>
+<tr><td>26</td><td>2018/02/11 08:11:38</td><td>2.1</td><td>13</td><td>36.08 N </td><td>129.34 E </td><td class="align_left">경북 포항시 북구 북북서쪽 5km 지역</td></tr>
+<tr><td>25</td><td>2018/02/11 05:38:06</td><td>2.1</td><td>10</td><td>36.09 N </td><td>129.32 E </td><td class="align_left">경북 포항시 북구 북서쪽 7km 지역</td></tr>
+<tr><td>24</td><td>2018/02/11 05:18:56</td><td>2.1</td><td>9</td><td>36.07 N </td><td>129.32 E </td><td class="align_left">경북 포항시 북구 북서쪽 5km 지역</td></tr>
+<tr><td>23</td><td>2018/02/11 05:14:05</td><td>2.2</td><td>10</td><td>36.08 N </td><td>129.33 E </td><td class="align_left">경북 포항시 북구 북서쪽 5km 지역</td></tr>
+<tr><td>22</td><td>2018/02/11 05:12:06</td><td>2.2</td><td>11</td><td>36.07 N </td><td>129.34 E </td><td class="align_left">경북 포항시 북구 북서쪽 4km 지역</td></tr>
+<tr><td>21</td><td>2018/02/11 05:07:23</td><td>2.5</td><td>12</td><td>36.08 N </td><td>129.33 E </td><td class="align_left">경북 포항시 북구 북서쪽 5km 지역</td></tr>
+<tr><td>20</td><td>2018/02/11 05:03:03</td><td>4.6</td><td>9</td><td>36.08 N </td><td>129.33 E </td><td class="align_left">경북 포항시 북구 북서쪽 5km 지역</td></tr>
+<tr><td>19</td><td>2018/02/10 01:32:38</td><td>2.4</td><td>10</td><td>36.60 N </td><td>125.76 E </td><td class="align_left">충남 태안군 서격렬비도 동쪽 20km 해역</td></tr>
+<tr><td>18</td><td>2018/02/09 00:43:45</td><td>2.5</td><td>-</td><td>33.92 N </td><td>125.22 E </td><td class="align_left">전남 신안군 흑산면 남남서쪽 85km 해역</td></tr>
+<tr><td>17</td><td>2018/02/08 09:56:49</td><td>2.7</td><td>9</td><td>35.10 N </td><td>124.99 E </td><td class="align_left">전남 신안군 흑산면 북서쪽 67km 해역</td></tr>
+<tr><td>16</td><td>2018/02/08 06:46:01</td><td>2.7</td><td>-</td><td>41.32 N </td><td>129.09 E </td><td class="align_left">북한 함경북도 길주 북북서쪽 45km 지역</td></tr>
+<tr><td>15</td><td>2018/02/06 19:53:53</td><td>2.6</td><td>-</td><td>41.33 N </td><td>129.10 E </td><td class="align_left">북한 함경북도 길주 북북서쪽 46km 지역</td></tr>
+<tr><td>14</td><td>2018/02/06 09:18:33</td><td>2.5</td><td>12</td><td>36.08 N </td><td>129.33 E </td><td class="align_left">경북 포항시 북구 북서쪽 5km 지역</td></tr>
+<tr><td>13</td><td>2018/02/04 22:20:35</td><td>2.3</td><td>8</td><td>36.06 N </td><td>129.31 E </td><td class="align_left">경북 포항시 북구 서북서쪽 5km 지역</td></tr>
+<tr><td>12</td><td>2018/02/04 18:50:25</td><td>2.8</td><td>14</td><td>36.37 N </td><td>127.62 E </td><td class="align_left">충북 옥천군 북북동쪽 8km 지역</td></tr>
+<tr><td>11</td><td>2018/02/04 15:43:38</td><td>2.1</td><td>7</td><td>36.11 N </td><td>129.36 E </td><td class="align_left">경북 포항시 북구 북쪽 8km 지역</td></tr>
+<tr><td>10</td><td>2018/02/03 12:35:01</td><td>2.6</td><td>19</td><td>33.77 N </td><td>127.40 E </td><td class="align_left">전남 여수시 거문도 남남동쪽 30km 해역</td></tr>
+<tr><td>9</td><td>2018/02/03 11:12:18</td><td>2.0</td><td>6</td><td>36.14 N </td><td>129.36 E </td><td class="align_left">경북 포항시 북구 북쪽 11km 지역</td></tr>
+<tr><td>8</td><td>2018/02/02 12:21:12</td><td>2.9</td><td>9</td><td>36.12 N </td><td>129.37 E </td><td class="align_left">경북 포항시 북구 북쪽 9km 지역</td></tr>
+<tr><td>7</td><td>2018/01/28 20:07:06</td><td>3.2</td><td>6</td><td>40.24 N </td><td>127.30 E </td><td class="align_left">북한 함경남도 장진 남남동쪽 16km 지역</td></tr>
+<tr><td>6</td><td>2018/01/24 01:25:17</td><td>2.4</td><td>16</td><td>34.32 N </td><td>127.32 E </td><td class="align_left">전남 여수시 거문도 북쪽 32km 해역</td></tr>
+<tr><td>5</td><td>2018/01/10 18:42:59</td><td>2.0</td><td>20</td><td>36.26 N </td><td>127.34 E </td><td class="align_left">대전 서구 남남서쪽 12km 지역</td></tr>
+<tr><td>4</td><td>2018/01/09 16:17:51</td><td>2.1</td><td>20</td><td>33.98 N </td><td>127.11 E </td><td class="align_left">전남 여수시 거문도 서남서쪽 19km 해역</td></tr>
+<tr><td>3</td><td>2018/01/06 02:47:16</td><td>2.2</td><td>12</td><td>37.71 N </td><td>125.94 E </td><td class="align_left">인천 옹진군 연평도 동북동쪽 21km 해역</td></tr>
+<tr><td>2</td><td>2018/01/01 19:11:53</td><td>2.0</td><td>8</td><td>36.11 N </td><td>129.36 E </td><td class="align_left">경북 포항시 북구 북쪽 8km 지역</td></tr>
+<tr><td>1</td><td>2018/01/01 18:35:01</td><td>2.1</td><td>-</td><td>38.33 N </td><td>126.16 E </td><td class="align_left">북한 황해북도 평산 서쪽 20km 지역</td></tr>
+
+	</tbody> 
+	</table> 
+<!-- content :End -->
+</body>
+</html>
+
+
