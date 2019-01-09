@@ -1,11 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
-import urllib.parse as parse
-import os.path as path
-
-def getFileName(url) :
-    p = parse.urlparse(url).path
-    return path.basename(p)
+import urls
 
 def trans_url(url):
     url_origin =  url
@@ -17,19 +12,11 @@ def trans_url(url):
     print("uri >>>>>>>>>>>>>>>>>>>>>>>>>>", uri)
     return uri
 
-trans_url('https://blog.naver.com/korea_diary/221433346994')
 
-# url_origin = "https://blog.naver.com/korea_diary/221433346994"
-# res_origin = requests.get(url_origin)
-# soup_origin = BeautifulSoup(res_origin.text, 'html.parser')
-# sel_origin = "#mainFrame"
-# uris = soup_origin.select(sel_origin)
-# uri = uris[0].get('src')
+trans_url('https://blog.naver.com/korea_diary/221433346994')
 
 url = "https://blog.naver.com" + trans_url('https://blog.naver.com/korea_diary/221433346994')
 print(url)
-
-
 
 # url = "https://blog.naver.com/PostView.nhn?blogId=korea_diary&logNo=221433346994&redirect=Dlog&widgetTypeCall=true&topReferer=https%3A%2F%2Fwww.naver.com%2F&directAccess=false"
 res = requests.get(url)
@@ -48,5 +35,5 @@ print("--------------------------------------")
 for img in imgs:
     src = img.get('src')
     print("img>>", src)
-    with open("./images/" + getFileName(src), "wb") as file:
+    with open("./images/" + urls.getFilename(src), "wb") as file:
         file.write(requests.get(src).content)
