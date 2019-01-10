@@ -37,26 +37,11 @@ while len(Students)<1000:
 print(Students)
 
 
-<<<<<<< HEAD
 
 conn = pymysql.connect(host='localhost', user='better', password='1q2w3e', port=3306, db='betterdb', charset='utf8')
-=======
-# conn = sqlite3.connect("test.db")
-conn = pymysql.connect(host='localhost', user='hong', password='1q2w3e', port=3306, db='homedb', charset='utf8')
->>>>>>> ae2e31c5382b40e7e8adf1b500690ff1f934e8bc
 
 with conn:
     cur = conn.cursor()
     sql = "insert into Students(name, tel, email, birth, addr) values(%s, %s, %s, %s, %s)"
     cur.executemany(sql, Students)
     conn.commit()
-<<<<<<< HEAD
-=======
-
-# curs = conn.cursor()
-# sql = "select * from Students"
-# curs.execute(sql)
-# rows = curs.fetchall()
-# print(rows)
-# conn.close()
->>>>>>> ae2e31c5382b40e7e8adf1b500690ff1f934e8bc
