@@ -1,5 +1,4 @@
 import pro_mig_util as mu
-import datetime
 
 conn_oracle_hr = mu.get_oracle_conn("hr","hrpw", "localhost:1521/xe")
 conn_mysql_betterdb = mu.get_mysql_conn("betterdb")
