@@ -6,7 +6,7 @@ from selenium.webdriver.common.keys import Keys
 drvPath = 'C:\workspace\python\hello\chromedriver.exe'
 driver = webdriver.Chrome(drvPath)
 UserId = "better3311"
-UserPw = "JH813432!@"
+UserPw = ""
 
 driver.get("https://www.naver.com")
 time.sleep(1)
