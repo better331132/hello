@@ -39,13 +39,13 @@ for i in range(150050,150100):
 #         file.write(line)
 #         file.write('\n')
 # print(a)
-with open('./data/국국100.csv', 'w', encoding='utf-8') as file:
-    m = 0
-    for line in a:
-        m += 1
-        file.write(line)
-        if (m % 2) == 0 :
-            file.write("\n")
+# with open('./data/국국100.csv', 'w', encoding='utf-8') as file:
+#     m = 0
+#     for line in a:
+#         m += 1
+#         file.write(line)
+#         if (m % 2) == 0 :
+#             file.write("\n")
 
 # f = open('./data/국국3.csv', 'w', encoding='euc-kr', newline='')
 # wr = csv.writer(f)

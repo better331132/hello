@@ -52,7 +52,7 @@ for j in jsonData['contsLike']:
     k = str(j['CONTSID'])
     dic[k]['likecnt'] = j['SUMMCNT']
 
-pprint.pprint(dic)
+# pprint.pprint(dic)
 
 for i in tops:
     print(" 순위 : " + trans_structure(i.select_one('div.wrap.t_center')) + "\n", 
