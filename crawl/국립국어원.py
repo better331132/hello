@@ -6,7 +6,7 @@ a = []
 def trans_structure(x):
     return x.text.strip().replace('\n\n','').replace('\xa0', '').replace('\n','').replace('\\','').replace('※이동통신 기기에서 작성한 글입니다.','').replace(',',' ')
 
-for i in range(150000,150100):
+for i in range(150050,150100):
     url = "https://www.korean.go.kr/front/onlineQna/onlineQnaView.do?mn_id=60&qna_seq={}&pageIndex=1".format(i)
     html = requests.get(url).text
     soup = BeautifulSoup(html, 'html.parser')
@@ -39,7 +39,7 @@ for i in range(150000,150100):
 #         file.write(line)
 #         file.write('\n')
 # print(a)
-with open('./data/국국100.csv', 'w', encoding='euc-kr') as file:
+with open('./data/국국100.csv', 'w', encoding='utf-8') as file:
     m = 0
     for line in a:
         m += 1
