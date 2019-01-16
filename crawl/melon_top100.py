@@ -1,15 +1,14 @@
 from bs4 import BeautifulSoup
 import requests
-import time
+import time, random
 import json
 import pprint
+import codecs, csv
 
 def trans_structure(x):
     return x.text.strip().replace('\n','').replace('\t', '')
 
 url = "https://www.melon.com/chart/index.htm"
-
-
 
 headers = {
         'Accept': '*/*',
@@ -24,7 +23,6 @@ headers = {
 }
 
 html = requests.get(url, headers = headers).text
-
 soup = BeautifulSoup(html, 'html.parser')
 tops = soup.select('#frm tbody tr')
 
@@ -32,9 +30,7 @@ songs_no = []
 for i in tops:
     songs_no.append(str(i.attrs['data-song-no']))
 
-
 aurl = "https://www.melon.com/commonlike/getSongLike.json"
-
 
 params = {
     'contsIds':','.join(songs_no)
@@ -53,9 +49,35 @@ for j in jsonData['contsLike']:
     dic[k]['likecnt'] = j['SUMMCNT']
 
 # pprint.pprint(dic)
+lines = []
 
+likecnt_list = []
 for i in tops:
-    print(" 순위 : " + trans_structure(i.select_one('div.wrap.t_center')) + "\n", 
-            "곡명 : " + trans_structure(i.select_one('div.ellipsis.rank01')) + "\n", 
-            "가수 : " + trans_structure(i.select_one('span.checkEllipsis'))+ "\n", 
-            "좋아요 : " + str(dic[i.attrs['data-song-no']]['likecnt']) + "\n")
+    likecnt = int(dic[i.attrs['data-song-no']]['likecnt'])
+    likecnt_list.append(likecnt)
+    
+minlikecnt = sorted(likecnt_list)[0]
+total_likecnt = 0
+total_difflikecnt = 0
+for i in tops:
+    rank = trans_structure(i.select_one('div.wrap.t_center'))
+    title = trans_structure(i.select_one('div.ellipsis.rank01'))
+    singer = trans_structure(i.select_one('span.checkEllipsis'))
+    likecnt = int(dic[i.attrs['data-song-no']]['likecnt'])
+    difflikecnt = likecnt - minlikecnt
+    lines.append("{}${}${}${}${}\n".format(rank, title, singer, likecnt, difflikecnt))
+    total_likecnt += likecnt
+    total_difflikecnt += difflikecnt
+    print(" 순위 : " + rank + "\n", 
+            "곡명 : " + title + "\n", 
+            "가수 : " + singer + "\n", 
+            "공감수 : " + str(likecnt) + "\n",
+            "공감수차 : " + str(difflikecnt) + "\n")
+    
+
+with open("./data/melon_top100.csv", "w", encoding='utf-8') as file:
+    file.write("순위$곡명$가수$공감수$공감수차\n")
+    for line in lines:
+        file.write(line)
+    file.write("$$$공감수총계${}\n".format(total_likecnt))
+    file.write("$$$공감수차총계${}\n".format(total_difflikecnt))

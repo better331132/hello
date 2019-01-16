@@ -38,10 +38,10 @@ for query in queries:
                 else:
                     print("이건 데이터가 아니야.....", t_url, "\n\n")
                     print("질문(O), 내용(X), 답변(X)")
-                    data_fail.append(t_url + '\n')
+                    data_fail.append('답변없음' + '$' + t_url + '$' + '\n')
             else :
                 print("질문이 없어............", t_url, "\n\n")
-                data_fail.append(t_url + '\n')
+                data_fail.append('질문없음' + '$' + t_url + '$' + '\n')
                     
                 continue
 
@@ -54,8 +54,8 @@ with open('./data/지식인검색.csv', 'w', encoding='utf-8') as file:
         file.write(line)
 
 with open('./data/지식인검색실패.csv', 'w', encoding='utf-8') as file:
-    for lin in data_fail:
-        file.write(line)
+    for f_url in data_fail:
+        file.write(f_url)
 
 # with open('./data/지식인검색.csv', 'w', encoding='utf-8') as file:
 #     m = 0
