@@ -45,13 +45,9 @@ for j in jsonData['contsLike']:
     songDic = dic[key]
     songDic['likecnt'] = j['SUMMCNT']
 
-
 result = sorted(dic.items(), key=lambda d: d[1]['ranking'])
 pprint(result[0])
 pprint(type(result[0]))
-
-
-
 
 # with codecs.open("./data/melon_top100_dict", "w", encoding="utf-8") as f:
 #     write_deli = csv.writer(f, delimiter=',', quotechar='"')
