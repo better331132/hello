@@ -1,6 +1,6 @@
 import random
 from pprint import pprint
-import operator
+# import operator
 data = {
     "A" : [
         [9, -9, -4,  3,  6],

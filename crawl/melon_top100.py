@@ -60,7 +60,7 @@ minlikecnt = sorted(likecnt_list)[0]
 total_likecnt = 0
 total_difflikecnt = 0
 for i in tops:
-    rank = trans_structure(i.select_one('div.wrap.t_center'))
+    rank = trans_structure(i.select_one('div.wrap.t_center span.rank'))
     title = trans_structure(i.select_one('div.ellipsis.rank01'))
     singer = trans_structure(i.select_one('span.checkEllipsis'))
     likecnt = int(dic[i.attrs['data-song-no']]['likecnt'])

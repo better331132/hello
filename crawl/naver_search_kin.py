@@ -3,12 +3,12 @@ from bs4 import BeautifulSoup
 import requests
 
 
-queries = ['경음', '사이시옷', '맞춤법', '자음동화', '유음화']
+queries = ['경음', '사이시옷', '맞춤법', '자음동화', '유음화','된소리','차용어','외래어','표기법','사투리']
 
 data = []
 data_fail = []
 for query in queries:
-    for i in range(1, 100):
+    for i in range(1, 50):
         url = "https://kin.naver.com/search/list.nhn?query={}&page={}".format(query, i)
         html = requests.get(url).text
         soup = BeautifulSoup(html, 'html.parser')
