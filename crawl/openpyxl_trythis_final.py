@@ -14,9 +14,9 @@ from openpyxl.chart import (
 
 wb = openpyxl.Workbook()
 ws = wb.active
-ws.title = "챠트목록"
+ws.title = "Chart List"
 ws2 = wb.create_sheet()
-ws2.title = "Image 목록"
+ws2.title = "Image List"
 ws3 = wb.create_sheet()
 ws3.title = "Top10 Chart"
 
@@ -50,7 +50,7 @@ barChart.legend = None  # 범례
 barChart.varyColors = True
 barChart.title = "Top10 Likes"
 
-ws3.add_chart(barChart, "A1")
+ws3.add_chart(barChart, "D1")
 
 scatChart = ScatterChart()
 scatChart.style = 13
@@ -70,7 +70,7 @@ for i in lst:
 				title_from_data=True)
     scatChart.series.append(series)
     
-ws3.add_chart(scatChart, "A20")
+ws3.add_chart(scatChart, "D20")
 
 print("됨")
 wb.save('./data/melon_top100_excel.xlsx')
