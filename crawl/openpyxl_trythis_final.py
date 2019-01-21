@@ -56,18 +56,10 @@ scatChart.style = 13
 scatChart.x_axis.title = 'SongName'
 scatChart.y_axis.title = 'DiffLikes'
 
-xvalues = Reference(ws, min_col=1,
-			 min_row=2, max_row=11)
-
-lst = [5]
-for i in lst:
-    values = Reference(ws, 
-				min_col=i,
-                min_row=1,
-                max_row=11)
-    series = Series(values, xvalues, 
-				title_from_data=True)
-    scatChart.series.append(series)
+xvalues = Reference(ws, min_col=1, min_row=2, max_row=11)
+values = Reference(ws, min_col=5, min_row=1, max_row=11)
+series = Series(values, xvalues, title_from_data=True)
+scatChart.series.append(series)
     
 ws3.add_chart(scatChart, "D20")
 
