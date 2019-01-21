@@ -1,6 +1,5 @@
-import requests
+import requests, urllib.request
 from bs4 import BeautifulSoup
-import urllib.request
 import openpyxl
 import csv
 from openpyxl.chart import (
@@ -32,15 +31,15 @@ with open('./data/meltop100.csv', 'r', encoding='utf-8') as f:
 for i in range(1,101):
     imgFile = './images/meltop100/meltop{}.png'.format(i)
     img = openpyxl.drawing.image.Image(imgFile)
-    tmpCell = ws2.cell(row = 6 * i - 5, column = 1)
+    col = ((i + 9) // 10)*2 - 1
+    row = (7*i-6)%70 + 1
+    tmpCell = ws2.cell(row = row - 1, column = col)
     tmpCell.value = "Top{} Image".format(i)
-    ws2.add_image(img, 'C{}'.format(6 * i - 5))
+    ws2.add_image(img, '{}{}'.format(chr(col+64), row))
     print("OK === >> {}".format(i))
-
 
 dat = Reference(ws, min_col=4, min_row=2, max_col=4, max_row=11)
 cat = Reference(ws, min_col=2, min_row=2, max_col=2, max_row=11)
-
 
 barChart = BarChart()
 barChart.add_data(data=dat)
