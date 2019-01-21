@@ -27,8 +27,8 @@ with conn_betterdb:
 
 with conn_dadb:
     cur = conn_dadb.cursor()
-    cur.excute('truncate table Subject')
+    cur.execute('truncate table Subject')
     
     sql = "insert into Subject(id, name, prof, classroom) values(%s, %s, %s, %s)"
-    cur.execute(sql, rows)
+    cur.executemany(sql, rows)
     conn_dadb.commit()
