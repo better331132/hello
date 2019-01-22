@@ -31,8 +31,8 @@ with open('./data/meltop100.csv', 'r', encoding='utf-8') as f:
 for i in range(1,101):
     imgFile = './images/meltop100/meltop{}.png'.format(i)
     img = openpyxl.drawing.image.Image(imgFile)
-    col = ((i + 9) // 10)*2 - 1
-    row = (7*i-6)%70 + 1
+    col = ((i + 9) // 10) * 2 - 1
+    row = (7 * i - 6) % 70 + 1
     tmpCell = ws2.cell(row = row - 1, column = col)
     tmpCell.value = "Top{} Image".format(i)
     ws2.add_image(img, '{}{}'.format(chr(col+64), row))
