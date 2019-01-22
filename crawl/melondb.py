@@ -52,39 +52,137 @@ trs.pop(0)
 # print(len(trs))
 
 pattern_no = re.compile('\(\'(.*)\'\)')
-pattern_rating = re.compile('([0-9.]+)')
+pattern_artist = re.compile('\((.*)\)')
 
 
-# def crawlA():
-#     album_url = "https://www.melon.com/album/detail.htm?albumId={}".format(albumNo)
-#     album_res = requests.get(url, headers=heads)
-#     album_html = album_res.text
-#     album_soup = BeautifulSoup(album_html, 'html.parser')
-#     album_detail = album_soup.select_one("div.wrap_info")
-rankDate = soup.select_one("#conts span.yyyymmdd span").text.replace('.','')
-print(rankDate)
+# rankDate = soup.select_one("#conts span.yyyymmdd span").text.replace('.','')
+# #============================================================================rankDate 추출
 
+# albumTitle = tr.select_one("div.ellipsis.rank03 a").text
+# #============================================================================albumTitle 추출
 
+# songTitle = tr.select_one("div.ellipsis.rank01 > span > a").text
+# #============================================================================songTitle 추출
 
-likecnt_dic = {}
-for tr in trs:
+# artistName = tr.select_one("div.ellipsis.rank02 > a").text
+# #============================================================================artistName 추출
+
+# rank = tr.select_one('div.wrap.t_center span.rank ').text
+# print("rank >> ", rank)
+# #============================================================================rank 추출
+
+songInfo_dic = {}
+for i, tr in enumerate(trs):
     songNo = tr.attrs['data-song-no']
     t_albumNo = tr.select_one('.wrap a').attrs['href']
     albumNo = re.findall(pattern_no, t_albumNo)[0]
     t_artistNo = tr.select_one('.ellipsis.rank02 a').attrs['href']
     artistNo = re.findall(pattern_no, t_artistNo)[0]
+    songInfo_dic[songNo] = {'songNo': songNo, 'albumNo': albumNo, 'artistNo': artistNo}
+#=============================================================db와 비교하기 위헤 songNo, albumNo, artistNo 추출
 
-    rank = tr.select_one('span.rank').text
+likecnt_url = "https://www.melon.com/commonlike/getSongLike.json"
+likecnt_params = {
+    "contsIds" : ",".join(songInfo_dic.keys())
+}
+likecnt_res = requests.get(likecnt_url, headers=heads, params=likecnt_params)
+likecnt_json = json.loads(likecnt_res.text)
+pprint(likecnt_json)
+#============================================================================likeCnt 추출
 
-    album_url = "https://www.melon.com/album/albumGradeInfo.json"
-    album_params = {
-        "albumId": "{}".format(albumNo)
-    }
-    album_res = requests.get(album_url, headers=heads, params=album_params)
-    album_json = json.loads(album_res.text)
-    rating = round(float(album_json['infoGrade']['TOTAVRGSCORE']) * 20, 2)
-    print(albumNo, rating)
-    exit()
+song_url = "https://www.melon.com/song/detail.htm"
+song_params = {
+    "songId": "{}".format(songNo)
+}
+song_res = requests.get(song_url, headers=heads, params=song_params)
+song_html = song_res.text
+song_soup = BeautifulSoup(song_html, 'html.parser')
+
+genre = song_soup.select_one("#downloadfrm div.meta > dl > dd:nth-child(6)").text
+#============================================================================genre 추출
+
+
+det_lsas = song_soup.select("#conts > div.section_prdcr > ul > li")
+for i in det_lsas:
+    det_lsa = i.select_one('div.entry span.type').text
+    if det_lsa == '작사':
+        t_lyricist = i.select_one('div.entry a').attrs['href']
+        lyricist = re.findall(pattern_artist, t_lyricist)[0]
+    elif det_lsa == '작곡':
+        t_songWriter = i.select_one('div.entry a').attrs['href']
+        songWriter = re.findall(pattern_artist, t_songWriter)[0]
+    else:
+        t_arranger = i.select_one('div.entry a').attrs['href']
+        arranger = re.findall(pattern_artist, t_arranger)[0]
+        
+#============================================================================lyricist, songWriter, arranger 추출
+
+
+
+#============================================================================releaser 추출
+album_url = "https://www.melon.com/album/detail.htm"
+album_params = {
+    "albumId": "{}".format(albumNo)
+}
+album_res = requests.get(album_url, headers=heads, params=album_params)
+album_html = album_res.text
+album_soup = BeautifulSoup(album_html, 'html.parser')
+dds = album_soup.select("div.wrap_info div.meta dd")
+for i, dd in enumerate(dds):
+    if i == 0:
+        releaseDate = dd.text
+        print("발매날짜",releaseDate)
+    elif i == 1:
+        albumGenre = dd.text
+        print("앨범장르",albumGenre)
+    elif i == 2:
+        releaser = dd.text
+        print("발매사",releaser)
+    else:
+        agency = dd.text
+        print("기획사",agency)
+#============================================================================agency, releaser, releaseDate, albumGenre 추출
+
+
+album_json_url = "https://www.melon.com/album/albumGradeInfo.json"
+album_json_params = {
+    "albumId": "{}".format(albumNo)
+}
+album_json_res = requests.get(album_json_url, headers=heads, params=album_json_params)
+album_json = json.loads(album_json_res.text)
+rating = round(float(album_json['infoGrade']['TOTAVRGSCORE']) * 20, 2)
+print(albumNo, rating)
+#============================================================================rating 추출
+
+artist_url = "https://www.melon.com/artist/detail.htm"
+artist_params = {
+    "artistId": "{}".format(artistNo)
+}
+artist_res = requests.get(artist_url, headers=heads, params=artist_params)
+artist_html = artist_res.text
+artist_soup = BeautifulSoup(artist_html, 'html.parser')
+dl = artist_soup.select_one("#conts > div.section_atistinfo03 > dl")
+dts = artist_soup.select("#conts > div.section_atistinfo03 > dl > dt")
+rng = len(dts) + 1
+
+for i in range(1, rng):
+    categ = dl.select_one("dt:nth-child({})".format((2 * i) - 1)).text
+    if categ == '데뷔':
+        debutDate = dl.select_one("dd:nth-child({})".format(2 * i)).text.replace('.','')
+        print(debutDate)
+    elif categ == '유형':
+        artistTypes = dl.select_one("dd:nth-child({})".format(2 * i)).text.split('|')
+        artistType1 = artistTypes[0].strip()
+        artistType2 = artistTypes[1].strip()
+        print(artistType1, "\n", artistType2)
+    elif categ == '소속사명':
+        emc = dl.select_one("dd:nth-child({})".format(2 * i)).text
+        print(emc)
+#============================================================================artistType, emc, debutDate 추출
+
+
+
+
 
     # if songNo not in songNos:
     #     crawlA()
@@ -99,14 +197,3 @@ for tr in trs:
 
 
     # print(songNo, albumNo, artistNo)
-
-likecnt_url = "https://www.melon.com/commonlike/getSongLike.json"
-likecnt_params = {
-    "contsIds" : ",".join(dic.keys())
-}
-likecnt_res = requests.get(likecnt_url, headers=heads, params=likecnt_params)
-likecnt_json = json.loads(likecnt_res.text)
-likeCnt = likecnt_json['contsLike'][0]['SUMMCNT']
-
-
-
