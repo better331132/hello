@@ -19,10 +19,11 @@ def crawl_artistName(tr):
     artistName = tr.select_one("div.ellipsis.rank02 > a").text
     return artistName
 def crawl_rank(tr):
-    rank = tr.select_one('div.wrap.t_center span.rank ').text
+    rank = tr.select_one('div.wrap.t_center span.rank').text
     return rank
 def crawl_likeCnt(songNo, songInfo_dic):
-    likecnt_url = "https://www.melon.com/commonlike/getSongLike.json"
+    # likecnt_url = "https://www.melon.com/commonlike/getSongLike.json"
+    likecnt_url = "http://vlg.berryservice.net:8099/melon/likejson"
     heads = {
         "Referer": "https: // www.melon.com/chart/index.htm",
         "User-Agent": "Mozilla/5.0 (Macintosh Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
@@ -30,15 +31,25 @@ def crawl_likeCnt(songNo, songInfo_dic):
     likecnt_params = {
         "contsIds" : ",".join(songInfo_dic.keys())
     }
-    likecnt_res = requests.get(likecnt_url, headers=heads, params=likecnt_params)
+    likecnt_res = requests.get(likecnt_url, params=likecnt_params)
     likecnt_json = json.loads(likecnt_res.text)
-    for i in range(len(likecnt_json)):
-        if likecnt_json['contsLike'][i]['CONTSID'] == songNo:
-            likeCnt = likecnt_json['contsLike'][i]['SUMMCNT']
-            return likeCnt
+    likecnt_json['contsLike'].pop(0)
+    return likecnt_json
+
+    
+    #     k = i['CONTSID']
+    #     if songInfo_dic.get(k) == None:
+    #         continue
+    #     else:
+    #         songInfo_dic[k]['likeCnt'] = i['SUMMCNT']
+    #         print("add success")
+    # likeCnt = songInfo_dic[songNo]['likeCnt']
+    # return likeCnt
+
 
 def crawl_genre(songNo):
-    song_url = "https://www.melon.com/song/detail.htm"
+    # song_url = "https://www.melon.com/song/detail.htm"
+    song_url = "http://vlg.berryservice.net:8099/melon/songdetail"
     heads = {
         "Referer": "https: // www.melon.com/chart/index.htm",
         "User-Agent": "Mozilla/5.0 (Macintosh Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
@@ -52,25 +63,10 @@ def crawl_genre(songNo):
     genre = song_soup.select_one("#downloadfrm div.meta > dl > dd:nth-of-type(3)").text
     return genre
 
-def crawl_lsa(songNo):
-    song_url = "https://www.melon.com/song/detail.htm"
-    heads = {
-        "Referer": "https: // www.melon.com/chart/index.htm",
-        "User-Agent": "Mozilla/5.0 (Macintosh Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
-    }
-    song_params = {
-        "songId": "{}".format(songNo)
-    }
-    song_res = requests.get(song_url, headers=heads, params=song_params)
-    song_html = song_res.text
-    song_soup = BeautifulSoup(song_html, 'html.parser')
-    pattern_artist = re.compile('\((.*)\)')
-    det_lsas = song_soup.select("#conts > div.section_prdcr > ul > li")
-    return det_lsas
-
 
 def crawl_rara(albumNo):
-    album_url = "https://www.melon.com/album/detail.htm"
+    # album_url = "https://www.melon.com/album/detail.htm"
+    album_url = "http://vlg.berryservice.net:8099/melon/detail"
     heads = {
         "Referer": "https: // www.melon.com/chart/index.htm",
         "User-Agent": "Mozilla/5.0 (Macintosh Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
@@ -85,7 +81,8 @@ def crawl_rara(albumNo):
     return dds
 
 def crawl_rating(albumNo):
-    album_json_url = "https://www.melon.com/album/albumGradeInfo.json"
+    # album_json_url = "https://www.melon.com/album/albumGradeInfo.json"
+    album_json_url = "http://vlg.berryservice.net:8099/melon/albumratejson"
     heads = {
         "Referer": "https: // www.melon.com/chart/index.htm",
         "User-Agent": "Mozilla/5.0 (Macintosh Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
