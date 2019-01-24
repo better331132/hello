@@ -71,7 +71,12 @@ with conn_melondb:
     cur_D = conn_melondb.cursor()
     cur_U = conn_melondb.cursor()
     cur_M = conn_melondb.cursor()
-    for i, tr in enumerate(trs):
+    oldSong_oldAlbum_oldArtist = []
+    newSong_oldAlbum_oldArtist = []
+    newSong_oldAlbum_newArtist = []
+    newSong_newAlbum_oldArtist = []
+    newSong_newAlbum_newArtist = []
+    for tr in trs:
         songNo = int(tr.attrs['data-song-no'])
         t_albumNo = tr.select_one('.wrap a').attrs['href']
         albumNo = int(re.findall(pattern_no, t_albumNo)[0])
@@ -85,17 +90,14 @@ with conn_melondb:
                 if songNo == i['CONTSID']:
                     print(songNo, i['CONTSID'])
                     likeCnt = i['SUMMCNT']
-            print("좋아요 >>>>>>> ", likeCnt)
             rank = bft.crawl_rank(tr)
             sql_U = "update Album set rating = %s where albumNo = %s"
             cur_U.execute(sql_U, [rating, songNo])
             sql_L = "update SongRank set likeCnt = %s where songNo = %s and rankDate = %s"
             cur_U.execute(sql_L, [likeCnt, songNo, rankDate])
-            print("LikeCnt, Rating, Rank Update Success")
-            print(songNo, albumNo, artistNo)
-
+            oldSong_oldAlbum_oldArtist.append(songNo)
 #-------------------------------------------------------------------A부분SQL-------------------------------------
-    #=========================================================================================================A타입
+#=========================================================================================================A타입
         elif (albumNo,) in albumNos:
             for aa in ass:
                 t_artistNo = aa.attrs['href']
@@ -121,6 +123,7 @@ with conn_melondb:
                     sql_B = """insert ignore into Song(songNo, songTitle, genre, albumNo) 
                                             values (%s, %s, %s, %s)"""
                     cur_B.execute(sql_B, lst_B)
+                    newSong_oldAlbum_oldArtist.append(songNo)
                     for aa in ass:
                         t_artistNo = aa.attrs['href']
                         artistNo = re.findall(pattern_no, t_artistNo)[0]
@@ -129,9 +132,6 @@ with conn_melondb:
                         sql_M = """insert ignore into SongArtist(songNo, artistNo)
                                                 values(%s, %s)"""
                         cur_M.execute(sql_M, lst_M)
-                    if songNo == 3087601:
-                        print("요놈은 B를 탔어야 한다.")
-                        exit()
 #-------------------------------------------------------------------B부분SQL-------------------------------------
 #=========================================================================================================B타입
                 else:
@@ -154,6 +154,7 @@ with conn_melondb:
                     sql_B = """insert ignore into Song(songNo, songTitle, genre, albumNo) 
                                             values (%s, %s, %s, %s)"""
                     cur_B.execute(sql_B, lst_B)
+                    newSong_oldAlbum_newArtist.append(songNo)
                     for aa in ass:
                         t_artistNo = aa.attrs['href']
                         artistNo = re.findall(pattern_no, t_artistNo)[0]
@@ -162,13 +163,8 @@ with conn_melondb:
                         sql_M = """insert ignore into SongArtist(songNo, artistNo)
                                                 values(%s, %s)"""
                         cur_M.execute(sql_M, lst_M)
-
 #-------------------------------------------------------------------B부분SQL-------------------------------------
 #-------------------------------------------------------------------C부분SQL-------------------------------------
-                    for aa in ass:
-                        t_artistNo = aa.attrs['href']
-                        artistNo = re.findall(pattern_no, t_artistNo)[0]
-                        artistName = bft.crawl_artistName(tr)
                         dl = bft.crawl_dae(artistNo)
                         dts = bft.get_dts(artistNo)
                         rng = len(dts) + 1
@@ -200,36 +196,6 @@ with conn_melondb:
                 t_artistNo = aa.attrs['href']
                 artistNo = int(re.findall(pattern_no, t_artistNo)[0])
                 artistName = bft.crawl_artistName(tr)
-<<<<<<< HEAD
-                dl = bft.crawl_dae(artistNo)
-                
-                
-                dts = bft.get_dts(artistNo)
-                
-                
-                rng = len(dts) + 1
-                lst_C = [artistNo, artistName]
-                sql_C = "insert ignore into Artist(artistNo, artistName) values(%s, %s)"
-                cur_C.execute(sql_C, lst_C)
-                
-                for i in range(1, rng):
-                    categ = dl.select_one("dt:nth-of-type({})".format(i)).text
-                    if categ == '데뷔':
-                        debutDate = dl.select_one("dd:nth-of-type({}) span".format(i)).text.replace('.','')
-                        sql_U = "update Artist set debutDate = %s where artistNo = %s"
-                        cur_C.execute(sql_U, [debutDate, artistNo])
-                    elif categ == '활동유형':
-                        artistType = dl.select_one("dd:nth-of-type({})".format(i)).text
-                        sql_U = "update Artist set artistType = %s where artistNo = %s"
-                        cur_C.execute(sql_U, [artistType, artistNo])
-                    elif categ == '소속사':
-                        emc = dl.select_one("dd:nth-of-type({})".format(i)).text
-                        sql_U = "update Artist set emc = %s where artistNo = %s"
-                        cur_C.execute(sql_U, [emc, artistNo])
-                    else:
-                        continue
-conn_melondb.commit()
-=======
                 if (artistNo,) in artistNos:
                     print("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
 #-------------------------------------------------------------------A부분SQL-------------------------------------
@@ -250,6 +216,7 @@ conn_melondb.commit()
                     sql_B = """insert ignore into Song(songNo, songTitle, genre, albumNo) 
                                             values (%s, %s, %s, %s)"""
                     cur_B.execute(sql_B, lst_B)
+                    newSong_newAlbum_oldArtist.append(songNo)
                     for aa in ass:
                         t_artistNo = aa.attrs['href']
                         artistNo = re.findall(pattern_no, t_artistNo)[0]
@@ -301,6 +268,7 @@ conn_melondb.commit()
                     lst_A = [songNo, rankDate, rank, likeCnt]
                     sql_A = "insert ignore into SongRank(songNo, rankDate, rank, likeCnt) values(%s, %s, %s, %s)"
                     cur_A.execute(sql_A, lst_A)
+                    newSong_newAlbum_newArtist.append(songNo)
 #-------------------------------------------------------------------A부분SQL-------------------------------------
 #-------------------------------------------------------------------B부분SQL-------------------------------------
                     songTitle = bft.crawl_songTitle(tr)
@@ -370,5 +338,11 @@ conn_melondb.commit()
                             cur_D.execute(sql_U, [agency, albumNo])
 #-------------------------------------------------------------------D부분SQL-------------------------------------
     conn_melondb.commit()
->>>>>>> ce2268b4c0768ee140d8acaa1e9a60a29065a8c1
 #=========================================================================================================E타입
+noo = set(newSong_oldAlbum_oldArtist)
+non = set(newSong_oldAlbum_newArtist)
+nno = set(newSong_newAlbum_oldArtist)
+nnn = set(newSong_newAlbum_newArtist)
+
+print("기존 곡 수 >>>>>>>>>>", len(set(oldSong_oldAlbum_oldArtist)))
+print("챠트 진입한 곡 수 >>>>", len(noo)+len(non)+len(nno)+len(nnn))
