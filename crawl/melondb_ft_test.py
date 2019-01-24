@@ -391,5 +391,5 @@ with conn_melondb:
                         cur_C.execute(sql_U, [emc, artistNo])
                     else:
                         continue
-    conn_melondb.commit()
+conn_melondb.commit()
 #=========================================================================================================E타입
