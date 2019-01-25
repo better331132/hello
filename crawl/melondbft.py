@@ -24,27 +24,18 @@ def crawl_rank(tr):
 def crawl_likeCnt(songNo, songInfo_dic):
     # likecnt_url = "https://www.melon.com/commonlike/getSongLike.json"
     likecnt_url = "http://vlg.berryservice.net:8099/melon/likejson"
-    heads = {
-        "Referer": "https: // www.melon.com/chart/index.htm",
-        "User-Agent": "Mozilla/5.0 (Macintosh Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
-    }
+    # heads = {
+    #     "Referer": "https: // www.melon.com/chart/index.htm",
+    #     "User-Agent": "Mozilla/5.0 (Macintosh Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
+    # }
     likecnt_params = {
         "contsIds" : ",".join(songInfo_dic.keys())
     }
+    # likecnt_res = requests.get(likecnt_url, params=likecnt_params, headers=heads)
     likecnt_res = requests.get(likecnt_url, params=likecnt_params)
     likecnt_json = json.loads(likecnt_res.text)
     likecnt_json['contsLike'].pop(0)
     return likecnt_json
-
-    
-    #     k = i['CONTSID']
-    #     if songInfo_dic.get(k) == None:
-    #         continue
-    #     else:
-    #         songInfo_dic[k]['likeCnt'] = i['SUMMCNT']
-    #         print("add success")
-    # likeCnt = songInfo_dic[songNo]['likeCnt']
-    # return likeCnt
 
 
 def crawl_genre(songNo):
