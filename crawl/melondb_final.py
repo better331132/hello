@@ -5,6 +5,7 @@ import time
 import pymysql
 import json
 import melondbft as bft
+from datetime import date
 
 def get_conn(db):
     return pymysql.connect(
@@ -29,6 +30,10 @@ with conn:
     sqlartistNo = "select artistNo from Artist"
     cur.execute(sqlartistNo)
     artistNos = cur.fetchall()
+
+    sqlrankDate = "select rankDate from SongRank"
+    cur.execute(sqlrankDate)
+    rankDates = cur.fetchall()
 url = "http://vlg.berryservice.net:8099/melon/list"
 # url = "https://www.melon.com/chart/day/index.htm"
 
@@ -51,9 +56,9 @@ for i, tr in enumerate(trs):
     songNo = tr.attrs['data-song-no']
     t_albumNo = tr.select_one('.wrap a').attrs['href']
     albumNo = re.findall(pattern_no, t_albumNo)[0]
-    ass = tr.select('.ellipsis.rank02 a')
-    for aa in ass:
-        t_artistNo = aa.attrs['href']
+    artists = tr.select('.ellipsis.rank02 a')
+    for artist in artists:
+        t_artistNo = artist.attrs['href']
         artistNo = re.findall(pattern_no, t_artistNo)[0]
         songInfo_dic[songNo] = {'songNo': songNo, 'albumNo': albumNo, 'artistNo': artistNo}
 #=============================================================db와 비교하기 위해 songNo, albumNo, artistNo 추출
@@ -66,18 +71,19 @@ with conn_melondb:
     cur_C = conn_melondb.cursor()
     cur_D = conn_melondb.cursor()
     cur_U = conn_melondb.cursor()
+    cur_L = conn_melondb.cursor()
     cur_M = conn_melondb.cursor()
     oldSong_oldAlbum_oldArtist = []
     newSong_oldAlbum_oldArtist = []
     newSong_oldAlbum_newArtist = []
     newSong_newAlbum_oldArtist = []
     newSong_newAlbum_newArtist = []
-
+    crawlDate = str(date.today())
     for tr in trs:
         songNo = int(tr.attrs['data-song-no'])
         t_albumNo = tr.select_one('.wrap a').attrs['href']
         albumNo = int(re.findall(pattern_no, t_albumNo)[0])
-        ass = tr.select('.ellipsis.rank02 span.checkEllipsis a')
+        artists = tr.select('.ellipsis.rank02 span.checkEllipsis a')
         if (songNo,) in songNos:
             print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
             rating = bft.crawl_rating(albumNo)
@@ -86,107 +92,51 @@ with conn_melondb:
                 if songNo == i['CONTSID']:
                     likeCnt = i['SUMMCNT']
             rank = bft.crawl_rank(tr)
-            lst_A = [songNo, rankDate, rank, likeCnt]
-            sql_A = "insert ignore into SongRank(songNo, rankDate, rank, likeCnt) values(%s, %s, %s, %s)"
-            cur_A.execute(sql_A, lst_A)
             sql_U = "update Album set rating = %s where albumNo = %s"
             cur_U.execute(sql_U, [rating, songNo])
-            sql_L = "update SongRank set likeCnt = %s where songNo = %s and rankDate = %s"
-            cur_U.execute(sql_L, [likeCnt, songNo, rankDate])
+            if (rankDate,) in rankDates:
+                sql_L = "update SongRank set likeCnt = %s where songNo = %s and rankDate = %s"
+                cur_L.execute(sql_L, [likeCnt, songNo, rankDate])
+            else:
+                lst_A = [songNo, rankDate, rank, likeCnt, crawlDate]
+                sql_A = "insert ignore into SongRank(songNo, rankDate, rank, likeCnt, crawlDate) values(%s, %s, %s, %s, %s)"
+                cur_A.execute(sql_A, lst_A)
             oldSong_oldAlbum_oldArtist.append(songNo)
-#=========================================================================================================A타입
+        #=========================================================================================================A타입
         elif (albumNo,) in albumNos:
-            for aa in ass:
-                t_artistNo = aa.attrs['href']
+            print("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
+            rating = bft.crawl_rating(albumNo)
+            likecnt_json = bft.crawl_likeCnt(songNo, songInfo_dic)
+            for i in likecnt_json['contsLike']:
+                if songNo == i['CONTSID']:
+                    likeCnt = i['SUMMCNT']
+            rank = bft.crawl_rank(tr)
+            songTitle = bft.crawl_songTitle(tr)
+            genre = bft.crawl_genre(songNo)
+            lst_B = [songNo, songTitle, genre, albumNo]
+            sql_B = """insert ignore into Song(songNo, songTitle, genre, albumNo) 
+                                    values (%s, %s, %s, %s)"""
+            cur_B.execute(sql_B, lst_B)
+            newSong_oldAlbum_oldArtist.append(songNo)
+            for artist in artists:
+                t_artistNo = artist.attrs['href']
+                artistNo = re.findall(pattern_no, t_artistNo)[0]
+                artistName = bft.crawl_artistName(tr)
+                lst_M = [songNo, artistNo]
+                sql_M = """insert ignore into SongArtist(songNo, artistNo)
+                                        values(%s, %s)"""
+                cur_M.execute(sql_M, lst_M)
+            lst_A = [songNo, rankDate, rank, likeCnt, crawlDate]
+            sql_A = "insert ignore into SongRank(songNo, rankDate, rank, likeCnt, crawlDate) values(%s, %s, %s, %s, %s)"
+            cur_A.execute(sql_A, lst_A)
+        #=========================================================================================================B타입
+        else:
+            for artist in artists:
+                t_artistNo = artist.attrs['href']
                 artistNo = int(re.findall(pattern_no, t_artistNo)[0])
                 artistName = bft.crawl_artistName(tr)
                 if (artistNo,) in artistNos:
-                    print("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
-                    rating = bft.crawl_rating(albumNo)
-                    likecnt_json = bft.crawl_likeCnt(songNo, songInfo_dic)
-                    for i in likecnt_json['contsLike']:
-                        if songNo == i['CONTSID']:
-                            likeCnt = i['SUMMCNT']
-                    rank = bft.crawl_rank(tr)
-                    songTitle = bft.crawl_songTitle(tr)
-                    genre = bft.crawl_genre(songNo)
-                    lst_B = [songNo, songTitle, genre, albumNo]
-                    sql_B = """insert ignore into Song(songNo, songTitle, genre, albumNo) 
-                                            values (%s, %s, %s, %s)"""
-                    cur_B.execute(sql_B, lst_B)
-                    newSong_oldAlbum_oldArtist.append(songNo)
-                    for aa in ass:
-                        t_artistNo = aa.attrs['href']
-                        artistNo = re.findall(pattern_no, t_artistNo)[0]
-                        artistName = bft.crawl_artistName(tr)
-                        lst_M = [songNo, artistNo]
-                        sql_M = """insert ignore into SongArtist(songNo, artistNo)
-                                                values(%s, %s)"""
-                        cur_M.execute(sql_M, lst_M)
-                    lst_A = [songNo, rankDate, rank, likeCnt]
-                    sql_A = "insert ignore into SongRank(songNo, rankDate, rank, likeCnt) values(%s, %s, %s, %s)"
-                    cur_A.execute(sql_A, lst_A)
-#=========================================================================================================B타입
-                else:
-                    print("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
-                    rating = bft.crawl_rating(albumNo)
-                    likecnt_json = bft.crawl_likeCnt(songNo, songInfo_dic)
-                    for i in likecnt_json['contsLike']:
-                        if songNo == i['CONTSID']:
-                            likeCnt = i['SUMMCNT']
-                    rank = bft.crawl_rank(tr)
-                    songTitle = bft.crawl_songTitle(tr)
-                    genre = bft.crawl_genre(songNo)
-                    newSong_oldAlbum_newArtist.append(songNo)
-                    for aa in ass:
-                        t_artistNo = aa.attrs['href']
-                        artistNo = re.findall(pattern_no, t_artistNo)[0]
-                        artistName = bft.crawl_artistName(tr)
-                        dl = bft.crawl_dae(artistNo)
-                        dts = bft.get_dts(artistNo)
-                        rng = len(dts) + 1
-                        lst_C = [artistNo, artistName]
-                        sql_C = "insert ignore into Artist(artistNo, artistName) values(%s, %s)"
-                        cur_C.execute(sql_C, lst_C)
-                        for i in range(1, rng):
-                            categ = dl.select_one("dt:nth-of-type({})".format(i)).text
-                            if categ == '데뷔':
-                                debutDate = dl.select_one("dd:nth-of-type({}) span".format(i)).text.replace('.','')
-                                sql_U = "update Artist set debutDate = %s where artistNo = %s"
-                                cur_C.execute(sql_U, [debutDate, artistNo])
-                            elif categ == '활동유형':
-                                artistType = dl.select_one("dd:nth-of-type({})".format(i)).text
-                                sql_U = "update Artist set artistType = %s where artistNo = %s"
-                                cur_C.execute(sql_U, [artistType, artistNo])
-                            elif categ == '소속사':
-                                emc = dl.select_one("dd:nth-of-type({})".format(i)).text
-                                sql_U = "update Artist set emc = %s where artistNo = %s"
-                                cur_C.execute(sql_U, [emc, artistNo])
-                            else:
-                                continue
-                    lst_B = [songNo, songTitle, genre, albumNo]
-                    sql_B = """insert ignore into Song(songNo, songTitle, genre, albumNo) 
-                                            values (%s, %s, %s, %s)"""
-                    cur_B.execute(sql_B, lst_B)
-                    lst_A = [songNo, rankDate, rank, likeCnt]
-                    sql_A = "insert ignore into SongRank(songNo, rankDate, rank, likeCnt) values(%s, %s, %s, %s)"
-                    cur_A.execute(sql_A, lst_A)
-                    for aa in ass:
-                        t_artistNo = aa.attrs['href']
-                        artistNo = re.findall(pattern_no, t_artistNo)[0]
-                        artistName = bft.crawl_artistName(tr)
-                        lst_M = [songNo, artistNo]
-                        sql_M = """insert ignore into SongArtist(songNo, artistNo)
-                                                values(%s, %s)"""
-                        cur_M.execute(sql_M, lst_M)
-#=========================================================================================================C타입
-        elif (albumNo,) not in albumNos:
-            for aa in ass:
-                t_artistNo = aa.attrs['href']
-                artistNo = int(re.findall(pattern_no, t_artistNo)[0])
-                artistName = bft.crawl_artistName(tr)
-                if (artistNo,) in artistNos:
-                    print("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
+                    print("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
                     rating = bft.crawl_rating(albumNo)
                     likecnt_json = bft.crawl_likeCnt(songNo, songInfo_dic)
                     for i in likecnt_json['contsLike']:
@@ -223,20 +173,20 @@ with conn_melondb:
                     sql_B = """insert ignore into Song(songNo, songTitle, genre, albumNo) 
                                             values (%s, %s, %s, %s)"""
                     cur_B.execute(sql_B, lst_B)
-                    lst_A = [songNo, rankDate, rank, likeCnt]
-                    sql_A = "insert ignore into SongRank(songNo, rankDate, rank, likeCnt) values(%s, %s, %s, %s)"
+                    lst_A = [songNo, rankDate, rank, likeCnt, crawlDate]
+                    sql_A = "insert ignore into SongRank(songNo, rankDate, rank, likeCnt, crawlDate) values(%s, %s, %s, %s, %s)"
                     cur_A.execute(sql_A, lst_A)
-                    for aa in ass:
-                        t_artistNo = aa.attrs['href']
+                    for artist in artists:
+                        t_artistNo = artist.attrs['href']
                         artistNo = re.findall(pattern_no, t_artistNo)[0]
                         artistName = bft.crawl_artistName(tr)
                         lst_M = [songNo, artistNo]
                         sql_M = """insert ignore into SongArtist(songNo, artistNo)
                                                 values(%s, %s)"""
                         cur_M.execute(sql_M, lst_M)
-#=========================================================================================================D타입
+                #=========================================================================================================C타입
                 else:
-                    print("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
+                    print("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
                     rating = bft.crawl_rating(albumNo)
                     likecnt_json = bft.crawl_likeCnt(songNo, songInfo_dic)
                     for i in likecnt_json['contsLike']:
@@ -246,9 +196,8 @@ with conn_melondb:
                     newSong_newAlbum_newArtist.append(songNo)
                     songTitle = bft.crawl_songTitle(tr)
                     genre = bft.crawl_genre(songNo)
-
-                    for aa in ass:
-                        t_artistNo = aa.attrs['href']
+                    for artist in artists:
+                        t_artistNo = artist.attrs['href']
                         artistNo = re.findall(pattern_no, t_artistNo)[0]
                         artistName = bft.crawl_artistName(tr)
                         dl = bft.crawl_dae(artistNo)
@@ -273,45 +222,45 @@ with conn_melondb:
                                 cur_C.execute(sql_U, [emc, artistNo])
                             else:
                                 continue
-                    albumTitle = bft.crawl_albumTitle(tr)
-                    rating = bft.crawl_rating(albumNo)
-                    dds = bft.crawl_rara(albumNo)
-                    lst_D = [albumNo, albumTitle, rating, artistNo]
-                    sql_D = "insert ignore into Album(albumNo, albumTitle, rating, artistNo) values(%s, %s, %s, %s)"
-                    cur_D.execute(sql_D, lst_D)
-                    for i, dd in enumerate(dds):
-                        if i == 0:
-                            releaseDate = dd.text.replace('.','')
-                            sql_U = "update Album set releaseDate = %s where albumNo = %s"
-                            cur_D.execute(sql_U, [releaseDate, albumNo])
-                        elif i == 1:
-                            albumGenre = dd.text
-                            sql_U = "update Album set albumGenre = %s where albumNo = %s"
-                            cur_D.execute(sql_U, [albumGenre, albumNo])
-                        elif i == 2:
-                            releaser = dd.text
-                            sql_U = "update Album set releaser = %s where albumNo = %s"
-                            cur_D.execute(sql_U, [releaser, albumNo])
-                        else:
-                            agency = dd.text
-                            sql_U = "update Album set agency = %s where albumNo = %s"
-                            cur_D.execute(sql_U, [agency, albumNo])
-                    lst_B = [songNo, songTitle, genre, albumNo]
-                    sql_B = """insert ignore into Song(songNo, songTitle, genre, albumNo) 
-                                            values (%s, %s, %s, %s)"""
-                    cur_B.execute(sql_B, lst_B)
-                    lst_A = [songNo, rankDate, rank, likeCnt]
-                    sql_A = "insert ignore into SongRank(songNo, rankDate, rank, likeCnt) values(%s, %s, %s, %s)"
-                    cur_A.execute(sql_A, lst_A)
-                    for aa in ass:
-                        t_artistNo = aa.attrs['href']
+                        albumTitle = bft.crawl_albumTitle(tr)
+                        rating = bft.crawl_rating(albumNo)
+                        dds = bft.crawl_rara(albumNo)
+                        lst_D = [albumNo, albumTitle, rating, artistNo]
+                        sql_D = "insert ignore into Album(albumNo, albumTitle, rating, artistNo) values(%s, %s, %s, %s)"
+                        cur_D.execute(sql_D, lst_D)
+                        for i, dd in enumerate(dds):
+                            if i == 0:
+                                releaseDate = dd.text.replace('.','')
+                                sql_U = "update Album set releaseDate = %s where albumNo = %s"
+                                cur_D.execute(sql_U, [releaseDate, albumNo])
+                            elif i == 1:
+                                albumGenre = dd.text
+                                sql_U = "update Album set albumGenre = %s where albumNo = %s"
+                                cur_D.execute(sql_U, [albumGenre, albumNo])
+                            elif i == 2:
+                                releaser = dd.text
+                                sql_U = "update Album set releaser = %s where albumNo = %s"
+                                cur_D.execute(sql_U, [releaser, albumNo])
+                            else:
+                                agency = dd.text
+                                sql_U = "update Album set agency = %s where albumNo = %s"
+                                cur_D.execute(sql_U, [agency, albumNo])
+                        lst_B = [songNo, songTitle, genre, albumNo]
+                        sql_B = """insert ignore into Song(songNo, songTitle, genre, albumNo) 
+                                                values (%s, %s, %s, %s)"""
+                        cur_B.execute(sql_B, lst_B)
+                        lst_A = [songNo, rankDate, rank, likeCnt, crawlDate]
+                        sql_A = "insert ignore into SongRank(songNo, rankDate, rank, likeCnt, crawlDate) values(%s, %s, %s, %s, %s)"
+                        cur_A.execute(sql_A, lst_A)
+                        t_artistNo = artist.attrs['href']
                         artistNo = re.findall(pattern_no, t_artistNo)[0]
                         lst_M = [songNo, artistNo]
                         sql_M = """insert ignore into SongArtist(songNo, artistNo)
                                                 values(%s, %s)"""
                         cur_M.execute(sql_M, lst_M)
+                #=========================================================================================================D타입
     conn_melondb.commit()
-#=========================================================================================================E타입
+
 noo = set(newSong_oldAlbum_oldArtist)
 non = set(newSong_oldAlbum_newArtist)
 nno = set(newSong_newAlbum_oldArtist)
