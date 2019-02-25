@@ -5,6 +5,7 @@ import sys
 from time import time
 from google.cloud import bigquery as bq
 import json
+import os
 
 def get_conn(db):
     return pymysql.connect(
@@ -16,13 +17,12 @@ def get_conn(db):
                 cursorclass=pymysql.cursors.DictCursor,
                 charset='utf8')
 
-conn = get_conn('melondb')
 
 # with open('./bigquery.json','r') as key_file:
 #     json_key = json.load(key_file)
 #     pprint(json_key)
-
-client = bigquery.get_client(json_key_file='./bigquery.json', readonly=False)
+keyFile = os.getenv('jsonkeyfile')
+client = bigquery.get_client(json_key_file=keyFile, readonly=False)
 
 
 # print(bool(client))
@@ -31,40 +31,28 @@ DATABASE = 'betterbigquery'
 TABLE = 'Songs'
 
 if not client.check_table(DATABASE, TABLE):
-    client.create_table(DATABASE, TABLE,  [{"name": "songNo", 
-                                            "type": "STRING"},
-                                           {"name": "songTitle",
-                                            "type": "STRING"},
-                                           {"name": "genre",
-                                            "type": "STRING"},
-                                           {"name": "album",
-                                            "type": "RECORD",
-                                            "fields": [{"name": "albumNo",
-                                                        "type": "STRING"},
-                                                       {"name": "albumTitle",
-                                                        "type": "STRING"},
-                                                       {"name": "agency",
-                                                        "type": "STRING"},
-                                                       {"name": "releaser",
-                                                        "type": "STRING"},
-                                                       {"name": "releaseDate",
-                                                        "type": "STRING"},
-                                                       {"name": "albumGenre",
-                                                        "type": "STRING"},
-                                                       {"name": "rating",
-                                                        "type": "STRING"},
-                                                       {"name": "artistNo",
-                                                        "type": "STRING"}
-                                                      ]
+    client.create_table(DATABASE, TABLE,  [{"name": "songNo", "type": "STRING"},
+                                           {"name": "songTitle","type": "STRING"},
+                                           {"name": "genre","type": "STRING"},
+                                           {"name": "album","type": "RECORD",
+                                            "fields": [{"name": "albumNo","type": "STRING"},
+                                                       {"name": "albumTitle","type": "STRING"},
+                                                       {"name": "agency","type": "STRING"},
+                                                       {"name": "releaser","type": "STRING"},
+                                                       {"name": "releaseDate","type": "STRING"},
+                                                       {"name": "albumGenre","type": "STRING"},
+                                                       {"name": "rating","type": "STRING"},
+                                                       {"name": "artistNo","type": "STRING"}]
                                             }
                                            ]
-                       )
+                        )
     
     print("Create table {0}.{1}".format(DATABASE, TABLE), file=sys.stderr)
 else:
     print("Table {} already exsits".format(TABLE))
 
 start2 = time()
+conn = get_conn('melondb')
 with conn:
     cur = conn.cursor()
     for k in range(10):
