@@ -23,13 +23,13 @@ conn = get_conn('melondb')
 #     pprint(json_key)
 
 client = bigquery.get_client(json_key_file='./bigquery.json', readonly=False)
-print(client.project_id)
-# projectid = client.project_id
+
+
 # print(bool(client))
 # exit()
 DATABASE = 'betterbigquery'
 TABLE = 'Songs'
-print("table exists?",client.check_table(DATABASE, TABLE))
+
 if not client.check_table(DATABASE, TABLE):
     client.create_table(DATABASE, TABLE,  [{"name": "songNo", 
                                             "type": "STRING"},
