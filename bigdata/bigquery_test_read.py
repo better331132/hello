@@ -1,8 +1,8 @@
-from google.cloud import bigquery
+from google.cloud import bigquery as bq
 from pprint import pprint
 # import bigquery
 # client = bigquery.get_client(json_key_file='./bigquery.json')
-client = bigquery.Client()
+client = bq.Client()
 # Perform a query.
 def read_table(table):
     QUERY = ('select * from `august-outlet-229402.bqdb.{}`'.format(table))
