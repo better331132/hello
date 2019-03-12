@@ -6,6 +6,8 @@ import pymysql
 import json
 from pprint import pprint
 
+
+
 def crawl_rankDate(soup):
     rankDate = soup.select_one("#conts span.yyyymmdd span").text.replace('.','')
     return rankDate

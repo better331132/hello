@@ -17,6 +17,7 @@ else:
         commit_msg = input_msg
 
 print("commit ... ",commit_msg)
+os.system("git pull")
 os.system("git add --all")
-os.system('git commit -am "{}"'.format(commit_msg))
+os.system('git commits -am "{}"'.format(commit_msg))
 os.system("git push")
